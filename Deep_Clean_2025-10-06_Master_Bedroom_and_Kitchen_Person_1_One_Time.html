@@ -15,10 +15,12 @@
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
-            padding: 20px;
+            padding: 24px 16px;
             display: flex;
             justify-content: center;
-            align-items: center;
+            align-items: flex-start;
+            line-height: 1.6;
+            color: #2d3748;
         }
 
         .container {
@@ -27,6 +29,7 @@
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
             max-width: 900px;
             width: 100%;
+            margin: 0 auto;
             padding: 40px;
             backdrop-filter: blur(10px);
         }
@@ -225,17 +228,95 @@
             font-size: 0.95em;
         }
 
-        @media (max-width: 600px) {
+        @media (max-width: 720px) {
+            body {
+                padding: 18px 12px;
+            }
+
             .container {
-                padding: 25px;
+                padding: 28px;
+                border-radius: 20px;
             }
-            
+
             .header h1 {
-                font-size: 2em;
+                font-size: 2.1em;
             }
-            
+
             .section {
                 padding: 20px;
+                margin-bottom: 28px;
+            }
+
+            .task {
+                padding: 12px 10px;
+            }
+
+            .task label {
+                font-size: 1em;
+            }
+
+            .phase-divider span {
+                letter-spacing: 1.5px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 14px 10px;
+            }
+
+            .container {
+                padding: 20px;
+                border-radius: 18px;
+            }
+
+            .header h1 {
+                font-size: 1.75em;
+            }
+
+            .team-badge {
+                padding: 8px 14px;
+                font-size: 0.95em;
+            }
+
+            .section {
+                padding: 16px;
+            }
+
+            .section-title {
+                font-size: 1.15em;
+            }
+
+            .section-icon {
+                width: 32px;
+                height: 32px;
+                font-size: 1em;
+            }
+
+            .task {
+                padding: 14px 10px;
+                min-height: 52px;
+            }
+
+            .task input[type="checkbox"] {
+                width: 26px;
+                height: 26px;
+                margin-right: 12px;
+            }
+
+            .task label {
+                font-size: 1em;
+                line-height: 1.5;
+            }
+
+            .best-practices {
+                padding: 16px;
+            }
+
+            .phase-divider span {
+                font-size: 1em;
+                letter-spacing: 1px;
+                padding: 0 12px;
             }
         }
 
@@ -255,7 +336,7 @@
         <div class="header">
             <div class="team-badge">TEAM MEMBER #1</div>
             <h1>🏠 Deep Clean Checklist</h1>
-            <div class="date">Sunday, October 06, 2025</div>
+            <div class="date" id="currentDate">Sunday, October 06, 2025</div>
         </div>
 
         <div class="progress-bar">
@@ -710,13 +791,17 @@
         // Set current date
         const currentDate = new Date();
         const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-        document.getElementById('currentDate').textContent = currentDate.toLocaleDateString('en-US', options);
+        const dateEl = document.getElementById('currentDate');
+        if (dateEl) {
+            dateEl.textContent = currentDate.toLocaleDateString('en-US', options);
+        }
 
         // Update progress bar
         function updateProgress() {
             const checkboxes = document.querySelectorAll('.task-checkbox');
             const checkedBoxes = document.querySelectorAll('.task-checkbox:checked');
-            const progress = (checkedBoxes.length / checkboxes.length) * 100;
+            const total = checkboxes.length;
+            const progress = total ? (checkedBoxes.length / total) * 100 : 0;
             document.getElementById('progressBar').style.width = progress + '%';
             
             // Save state to localStorage
@@ -740,6 +825,20 @@
         // Add event listeners
         document.querySelectorAll('.task-checkbox').forEach(checkbox => {
             checkbox.addEventListener('change', updateProgress);
+        });
+
+        // Make the entire task row tappable on mobile without double toggling label clicks
+        document.querySelectorAll('.task').forEach(task => {
+            task.addEventListener('click', (event) => {
+                if (event.target.tagName === 'INPUT' || event.target.tagName === 'LABEL') {
+                    return;
+                }
+                const checkbox = task.querySelector('input[type=\"checkbox\"]');
+                if (checkbox) {
+                    checkbox.checked = !checkbox.checked;
+                    updateProgress();
+                }
+            });
         });
 
         // Load state on page load
