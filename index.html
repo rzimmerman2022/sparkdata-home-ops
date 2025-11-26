@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SparkData Home Ops - Cleaning Checklists</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 500px;
+            width: 100%;
+        }
+
+        .card {
+            background: white;
+            border-radius: 20px;
+            padding: 32px 24px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        .logo h1 {
+            font-size: 24px;
+            font-weight: 700;
+            color: #1a1a2e;
+            margin-bottom: 4px;
+        }
+
+        .logo p {
+            color: #64748b;
+            font-size: 14px;
+        }
+
+        .divider {
+            height: 1px;
+            background: #e2e8f0;
+            margin: 24px 0;
+        }
+
+        h2 {
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #94a3b8;
+            margin-bottom: 16px;
+            font-weight: 600;
+        }
+
+        .checklist-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .checklist-link {
+            display: block;
+            padding: 16px 20px;
+            background: #f8fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            text-decoration: none;
+            color: #1a1a2e;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        .checklist-link:hover {
+            border-color: #667eea;
+            background: #f0f4ff;
+            transform: translateY(-2px);
+        }
+
+        .checklist-link .date {
+            display: block;
+            font-size: 12px;
+            color: #64748b;
+            margin-top: 4px;
+            font-weight: 400;
+        }
+
+        .checklist-link.featured {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-color: transparent;
+            color: white;
+        }
+
+        .checklist-link.featured .date {
+            color: rgba(255,255,255,0.8);
+        }
+
+        .checklist-link.featured:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px -5px rgba(102, 126, 234, 0.5);
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 24px;
+            color: rgba(255,255,255,0.7);
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <div class="logo">
+                <h1>SparkData Home Ops</h1>
+                <p>Cleaning Checklists</p>
+            </div>
+
+            <div class="divider"></div>
+
+            <h2>Current Session</h2>
+            <div class="checklist-list">
+                <a href="Deep_Clean_2025-11-26_Full_House_Single_Cleaner_Prioritized.html" class="checklist-link featured">
+                    Full House - Single Cleaner
+                    <span class="date">November 26, 2025 - Prioritized</span>
+                </a>
+            </div>
+
+            <div class="divider"></div>
+
+            <h2>Archive</h2>
+            <div class="checklist-list">
+                <a href="Deep_Clean_2025-10-06_Master_Bedroom_and_Kitchen_Person_1_One_Time.html" class="checklist-link">
+                    Master Bedroom & Kitchen (Person 1)
+                    <span class="date">October 6, 2025</span>
+                </a>
+                <a href="Deep_Clean_2025-10-06_Office_and_Living_Areas_Person_2_One_Time.html" class="checklist-link">
+                    Office & Living Areas (Person 2)
+                    <span class="date">October 6, 2025</span>
+                </a>
+            </div>
+        </div>
+
+        <p class="footer">SparkData Analytics - Home Office</p>
+    </div>
+</body>
+</html>
