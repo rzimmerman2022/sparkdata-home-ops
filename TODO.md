@@ -130,10 +130,11 @@
 |---------|-----------|
 | **ses001** | `PROGRESS_2025-11-28_07-41-02_opus-4.5_ses001.md`, `docs/handoffs/HANDOFF_2025-11-28_07-41-02_opus-4.5_ses001.md`, `state/session_2025-11-28_07-41-02_opus-4.5_ses001.json` |
 | **sheets-int-001** | `PROGRESS_2025-11-28_00-57-30_opus-4.5_sheets-int-001.md`, `docs/handoffs/HANDOFF_2025-11-28_00-57-30_opus-4.5_sheets-int-001.md`, `state/session_2025-11-28_00-57-30_opus-4.5_sheets-int-001.json` |
+| **handoff-001** | `PROGRESS_2025-11-28_01-11-38_opus-4.5_handoff-001.md`, `docs/handoffs/HANDOFF_2025-11-28_01-11-38_opus-4.5_handoff-001.md`, `state/session_2025-11-28_01-11-38_opus-4.5_handoff-001.json` |
 
-**Latest Session:** sheets-int-001
+**Latest Session:** handoff-001
 **Branch:** `main`
-**Tag:** `handoff-2025-11-28-ses001`
+**Tag:** `handoff-2025-11-28-handoff-001`
 
 ---
 
