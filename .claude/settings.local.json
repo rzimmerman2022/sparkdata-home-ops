@@ -1,17 +1,12 @@
 {
   "permissions": {
     "allow": [
-      "Bash(ren:*)",
-      "Bash(git init:*)",
-      "Bash(git remote add:*)",
-      "Bash(git add:*)",
-      "Bash(git commit:*)",
-      "Bash(git push:*)",
-      "Bash(gh repo edit:*)",
-      "Bash(gh api:*)",
+      "Bash(copy \"Deep_Clean_2025-11-26_Full_House_Single_Cleaner_Prioritized_DEV.html\" \"Deep_Clean_2025-11-26_Full_House_Single_Cleaner_Prioritized.html\")",
+      "Bash(git --version:*)",
+      "Bash(node --version:*)",
+      "Bash(npm --version:*)",
       "Bash(git checkout:*)",
-      "Bash(git merge:*)",
-      "Bash(git stash:*)"
+      "Bash(git add:*)"
     ],
     "deny": [],
     "ask": []
