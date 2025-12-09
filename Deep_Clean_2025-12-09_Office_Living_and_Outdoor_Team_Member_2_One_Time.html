@@ -1,0 +1,978 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deep Clean Checklist - Team Member #2</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #FA8BFF 0%, #2BD2FF 90%, #2BFF88 100%);
+            min-height: 100vh;
+            padding: 24px 16px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            line-height: 1.6;
+            color: #2d3748;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.98);
+            border-radius: 24px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+            max-width: 900px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 40px;
+            backdrop-filter: blur(10px);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            background: linear-gradient(135deg, #FA8BFF 0%, #2BD2FF 90%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+            font-weight: 800;
+        }
+
+        .team-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #FA8BFF 0%, #2BD2FF 90%);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .date {
+            color: #666;
+            font-size: 1.1em;
+            font-weight: 500;
+        }
+
+        .time-info {
+            color: #2BD2FF;
+            font-size: 1em;
+            font-weight: 600;
+            margin-top: 8px;
+        }
+
+        .best-practices {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            padding: 20px;
+            border-radius: 16px;
+            margin-bottom: 30px;
+            color: white;
+        }
+
+        .best-practices h3 {
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+
+        .best-practices ul {
+            margin-left: 20px;
+            line-height: 1.8;
+        }
+
+        .phase-divider {
+            text-align: center;
+            margin: 35px 0;
+            position: relative;
+        }
+
+        .phase-divider::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #2BD2FF, transparent);
+        }
+
+        .phase-divider span {
+            background: white;
+            padding: 0 20px;
+            position: relative;
+            font-weight: 700;
+            color: #2BD2FF;
+            font-size: 1.2em;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .section {
+            margin-bottom: 35px;
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            border-radius: 16px;
+            padding: 25px;
+            transition: transform 0.3s ease;
+        }
+
+        .section:hover {
+            transform: translateY(-2px);
+        }
+
+        .section-title {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            font-size: 1.4em;
+            color: #2d3748;
+            font-weight: 700;
+        }
+
+        .section-icon {
+            width: 35px;
+            height: 35px;
+            margin-right: 12px;
+            background: linear-gradient(135deg, #FA8BFF 0%, #2BD2FF 90%);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2em;
+        }
+
+        .task-group {
+            background: white;
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 12px;
+        }
+
+        .task-group-title {
+            font-weight: 600;
+            color: #4a5568;
+            margin-bottom: 10px;
+            font-size: 0.95em;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .task {
+            display: flex;
+            align-items: center;
+            padding: 12px 8px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            margin-bottom: 5px;
+        }
+
+        .task:hover {
+            background: rgba(43, 210, 255, 0.08);
+            transform: translateX(5px);
+        }
+
+        .task input[type="checkbox"] {
+            width: 22px;
+            height: 22px;
+            margin-right: 15px;
+            cursor: pointer;
+            accent-color: #2BD2FF;
+            flex-shrink: 0;
+        }
+
+        .task label {
+            cursor: pointer;
+            color: #2d3748;
+            font-size: 1.05em;
+            flex: 1;
+            user-select: none;
+            line-height: 1.4;
+        }
+
+        .task input[type="checkbox"]:checked + label {
+            text-decoration: line-through;
+            color: #a0aec0;
+        }
+
+        .task.priority-task {
+            background: rgba(43, 210, 255, 0.05);
+            border-left: 4px solid #2BD2FF;
+            padding-left: 12px;
+        }
+
+        .progress-bar {
+            background: #e2e8f0;
+            height: 8px;
+            border-radius: 100px;
+            margin: 30px 0;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-fill {
+            background: linear-gradient(90deg, #FA8BFF 0%, #2BD2FF 90%);
+            height: 100%;
+            width: 0%;
+            border-radius: 100px;
+            transition: width 0.5s ease;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 2px solid #e2e8f0;
+        }
+
+        .footer p {
+            color: #718096;
+            font-size: 0.95em;
+        }
+
+        @media (max-width: 720px) {
+            body {
+                padding: 18px 12px;
+            }
+
+            .container {
+                padding: 28px;
+                border-radius: 20px;
+            }
+
+            .header h1 {
+                font-size: 2.1em;
+            }
+
+            .section {
+                padding: 20px;
+                margin-bottom: 28px;
+            }
+
+            .task {
+                padding: 12px 10px;
+            }
+
+            .task label {
+                font-size: 1em;
+            }
+
+            .phase-divider span {
+                letter-spacing: 1.5px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 14px 10px;
+            }
+
+            .container {
+                padding: 20px;
+                border-radius: 18px;
+            }
+
+            .header h1 {
+                font-size: 1.75em;
+            }
+
+            .team-badge {
+                padding: 8px 14px;
+                font-size: 0.95em;
+            }
+
+            .section {
+                padding: 16px;
+            }
+
+            .section-title {
+                font-size: 1.15em;
+            }
+
+            .section-icon {
+                width: 32px;
+                height: 32px;
+                font-size: 1em;
+            }
+
+            .task {
+                padding: 14px 10px;
+                min-height: 52px;
+            }
+
+            .task input[type="checkbox"] {
+                width: 26px;
+                height: 26px;
+                margin-right: 12px;
+            }
+
+            .task label {
+                font-size: 1em;
+                line-height: 1.5;
+            }
+
+            .best-practices {
+                padding: 16px;
+            }
+
+            .phase-divider span {
+                font-size: 1em;
+                letter-spacing: 1px;
+                padding: 0 12px;
+            }
+        }
+
+        @keyframes checkmark {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+
+        .task input[type="checkbox"]:checked {
+            animation: checkmark 0.3s ease;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="team-badge">TEAM MEMBER #2</div>
+            <h1>🏠 Deep Clean Checklist</h1>
+            <div class="date">Monday, December 09, 2025</div>
+            <div class="time-info">Start Time: 1:00 PM</div>
+        </div>
+
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressBar"></div>
+        </div>
+
+        <div class="best-practices">
+            <h3>🎯 Your Focus Today: Office Priority + Living Areas + Outdoor</h3>
+            <ul>
+                <li>Office closet organization (priority task)</li>
+                <li>Outdoor storage organization</li>
+                <li>Multiple rooms: office, bedroom, bathroom, living, dining</li>
+                <li>Work top-to-bottom in each area</li>
+            </ul>
+        </div>
+
+        <div class="phase-divider">
+            <span>Phase 1: Declutter & Organize</span>
+        </div>
+
+        <div class="section">
+            <div class="section-title">
+                <div class="section-icon">💼</div>
+                Office / Second Bedroom (Priority Area)
+            </div>
+
+            <div class="task-group">
+                <div class="task-group-title">Office Closet Organization - Priority</div>
+                <div class="task priority-task">
+                    <input type="checkbox" id="office-closet-1" class="task-checkbox">
+                    <label for="office-closet-1">Organize office closet - arrange items by category</label>
+                </div>
+                <div class="task priority-task">
+                    <input type="checkbox" id="office-closet-2" class="task-checkbox">
+                    <label for="office-closet-2">Remove unnecessary items from office closet</label>
+                </div>
+                <div class="task priority-task">
+                    <input type="checkbox" id="office-closet-3" class="task-checkbox">
+                    <label for="office-closet-3">Neatly stack and organize remaining items in office closet</label>
+                </div>
+            </div>
+
+            <div class="task-group">
+                <div class="task-group-title">Office Space Organization</div>
+                <div class="task">
+                    <input type="checkbox" id="sb-declutter" class="task-checkbox">
+                    <label for="sb-declutter">Remove clutter from all surfaces (desk, shelves, storage cube)</label>
+                </div>
+                <div class="task">
+                    <input type="checkbox" id="sb-charging-station" class="task-checkbox">
+                    <label for="sb-charging-station">Reorganize and cable manage charging station</label>
+                </div>
+                <div class="task">
+                    <input type="checkbox" id="sb-printer-papers" class="task-checkbox">
+                    <label for="sb-printer-papers">Organize papers and items around printer area</label>
+                </div>
+                <div class="task">
+                    <input type="checkbox" id="sb-storage-cube" class="task-checkbox">
+                    <label for="sb-storage-cube">Organize items on storage cube - make visually aesthetic and less cluttery</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">
+                <div class="section-icon">🏞️</div>
+                Outdoor Storage Organization (Priority)
+            </div>
+
+            <div class="task-group">
+                <div class="task-group-title">Garage Return Task (Get garage door opener from owner)</div>
+                <div class="task priority-task">
+                    <input type="checkbox" id="garage-christmas" class="task-checkbox">
+                    <label for="garage-christmas">Take Christmas tree box and holiday grey bin to garage - walk straight past the pool, follow sidewalk to Garage #3, place both items on RIGHT side of garage</label>
+                </div>
+            </div>
+
+            <div class="task-group">
+                <div class="task-group-title">Outdoor Storage Area</div>
+                <div class="task priority-task">
+                    <input type="checkbox" id="outdoor-assess" class="task-checkbox">
+                    <label for="outdoor-assess">Assess outdoor storage - identify what needs organizing</label>
+                </div>
+                <div class="task priority-task">
+                    <input type="checkbox" id="outdoor-remove" class="task-checkbox">
+                    <label for="outdoor-remove">Remove items that don't belong in outdoor storage</label>
+                </div>
+                <div class="task priority-task">
+                    <input type="checkbox" id="outdoor-organize" class="task-checkbox">
+                    <label for="outdoor-organize">Organize outdoor storage by category - tools, seasonal items, etc.</label>
+                </div>
+                <div class="task priority-task">
+                    <input type="checkbox" id="outdoor-clean" class="task-checkbox">
+                    <label for="outdoor-clean">Sweep/clean outdoor storage area</label>
+                </div>
+                <div class="task">
+                    <input type="checkbox" id="outdoor-arrange" class="task-checkbox">
+                    <label for="outdoor-arrange">Arrange items neatly for easy access</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">
+                <div class="section-icon">🛋️</div>
+                Living & Dining Room Organization
+            </div>
+
+            <div class="task-group">
+                <div class="task-group-title">Living Room</div>
+                <div class="task">
+                    <input type="checkbox" id="lr-declutter" class="task-checkbox">
+                    <label for="lr-declutter">Remove clutter from all surfaces and organize</label>
+                </div>
+                <div class="task">
+                    <input type="checkbox" id="lr-remote-org" class="task-checkbox">
+                    <label for="lr-remote-org">Organize entertainment center and remote controls</label>
+                </div>
+                <div class="task">
+                    <input type="checkbox" id="lr-cushions" class="task-checkbox">
+                    <label for="lr-cushions">Arrange couch cushions and throw pillows</label>
+                </div>
+            </div>
+
+            <div class="task-group">
+                <div class="task-group-title">Dining Room</div>
+                <div class="task">
+                    <input type="checkbox" id="dr-table" class="task-checkbox">
+                    <label for="dr-table">Clear dining table of all items</label>
+                </div>
+                <div class="task">
+                    <input type="checkbox" id="dr-sideboard" class="task-checkbox">
+                    <label for="dr-sideboard">Organize sideboard or buffet area</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">
+                <div class="section-icon">🛁</div>
+                Second Bathroom Organization
+            </div>
+
+            <div class="task-group">
+                <div class="task-group-title">Bathroom Organization</div>
+                <div class="task">
+                    <input type="checkbox" id="sba-drawers" class="task-checkbox">
+                    <label for="sba-drawers">Organize drawers - remove expired products, wipe down interiors</label>
+                </div>
+                <div class="task">
+                    <input type="checkbox" id="sba-cabinet" class="task-checkbox">
+                    <label for="sba-cabinet">Organize under-sink area and medicine cabinet</label>
+                </div>
+                <div class="task">
+                    <input type="checkbox" id="sba-declutter" class="task-checkbox">
+                    <label for="sba-declutter">Clear all countertops of items for deep cleaning</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="phase-divider">
+            <span>Phase 2: Deep Clean (Top to Bottom)</span>
+        </div>
+
+        <div class="section">
+            <div class="section-title">
+                <div class="section-icon">💼</div>
+                Office / Second Bedroom Deep Clean
+            </div>
+
+            <div class="task-group">
+                <div class="task-group-title">High Areas First</div>
+                <div class="task">
+                    <input type="checkbox" id="sb-ceiling-fan" class="task-checkbox">
+                    <label for="sb-ceiling-fan">Dust ceiling fan blades and light fixtures</label>
+                </div>
+                <div class="task">
+                    <input type="checkbox" id="sb-corners" class="task-checkbox">
+                    <label for="sb-corners">Remove cobwebs from ceiling corners</label>
+                </div>
+                <div class="task">
+                    <input type="checkbox" id="sb-vents" class="task-checkbox">
+                    <label for="sb-vents">Clean air vents and return grilles</label>
+                </div>
+            </div>
+
+            <div class="task-group">
+                <div class="task-group-title">Walls & Windows</div>
+                <div class="task">
+                    <input type="checkbox" id="sb-walls" class="task-checkbox">
+                    <label for="sb-walls">Wipe down walls, remove marks and fingerprints</label>
+                </div>
+                <div class="task">
+                    <input type="checkbox" id="sb-windows" class="task-checkbox">
+                    <label for="sb-windows">Clean windows - glass, sills, and frames</label>
+                </div>
+                <div class="task">
+                    <input type="checkbox" id="sb-window-tracks" class="task-checkbox">
+                    <label for="sb-window-tracks">Clean window tracks - remove dirt and grime</label>
+                </div>
+                <div class="task">
+                    <input type="checkbox" id="sb-blinds" class="task-checkbox">
+                    <label for="sb-blinds">Dust and wipe window blinds</label>
+                </div>
+                <div class="task">
+                    <input type="checkbox" id="sb-door-tops" class="task-checkbox">
+                    <label for="sb-door-tops">Dust top of doors and door frames</label>
+                </div>
+            </div>
+
+            <div class="task-group">
+                <div class="task-group-title">Desk & Computer Area</div>
+                <div class="task">
+                    <input type="checkbox" id="sb-monitors" class="task-checkbox">
+                    <label for="sb-monitors">Clean monitors carefully (microfiber cloth only)</label>
+                </div>
+                <div class="task">
+                    <input type="checkbox" id="sb-keyboard" class="task-checkbox">
+                    <label for="sb-keyboard">Deep clean keyboard - remove dust and debris</label>
+                </div>
+                <div class="task">
+                    <input type="checkbox" id="sb-mouse" class="task-checkbox">
+                    <label for="sb-mouse">Clean mouse thoroughly</label>
+                </div>
+                <div class="task">
+                    <input type="checkbox" id="sb-desk-surface" class="task-checkbox">
+                    <label for="sb-desk-surface">Clean desk surface thoroughly</label>
+                </div>
+                <div class="task">
+                    <input type="checkbox" id="sb-chair" class="task-checkbox">
+                    <label for="sb-chair">Deep clean office chair - all crevices and seams</label>
+                </div>
+            </div>
+
+            <div class="task-group">
+                <div class="task-group-title">Mid-Level & Furniture</div>
+                <div class="task">
+                    <input type="checkbox" id="sb-furniture" class="task-checkbox">
+                    <label for="sb-furniture">Dust all furniture - shelves, storage cube, nightstand</label>
+                </div>
+                <div class="task">
+                    <input type="checkbox" id="sb-mirrors" class="task-checkbox">
+                    <label for="sb-mirrors">Clean any mirrors</label>
+                </div>
+                <div class="task">
+                    <input type="checkbox" id="sb-doors" class="task-checkbox">
+                    <label for="sb-doors">Wipe door, door frame, and handles</label>
+                </div>
+                <div class="task">
+                    <input type="checkbox" id="sb-switches" class="task-checkbox">
+                    <label for="sb-switches">Disinfect light switches and outlets</label>
+                </div>
+            </div>
+
+            <div class="task-group">
+                <div class="task-group-title">Lower Areas & Floors</div>
+                <div class="task">
+                    <input type="checkbox" id="sb-baseboards" class="task-checkbox">
+                    <label for="sb-baseboards">Wipe down all baseboards</label>
+                </div>
+                <div class="task">
+                    <input type="checkbox" id="sb-vacuum" class="task-checkbox">
+                    <label for="sb-vacuum">Vacuum thoroughly - under furniture, in corners</label>
+                </div>
+                <div class="task">
+                    <input type="checkbox" id="sb-mop" class="task-checkbox">
+                    <label for="sb-mop">Mop or carpet clean floor</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">
+                <div class="section-icon">🛁</div>
+                Second Bathroom Deep Clean
+            </div>
+
+            <div class="task-group">
+                <div class="task-group-title">High Areas First</div>
+                <div class="task">
+                    <input type="checkbox" id="sba-exhaust" class="task-checkbox">
+                    <label for="sba-exhaust">Clean exhaust fan and light fixtures</label>
+                </div>
+                <div class="task">
+                    <input type="checkbox" id="sba-ceiling" class="task-checkbox">
+                    <label for="sba-ceiling">Remove cobwebs and wipe ceiling corners</label>
+                </div>
+            </div>
+
+            <div class="task-group">
+                <div class="task-group-title">Shower/Tub Area</div>
+                <div class="task">
+                    <input type="checkbox" id="sba-showerhead" class="task-checkbox">
+                    <label for="sba-showerhead">Descale showerhead (soak in vinegar if needed)</label>
+                </div>
+                <div class="task">
+                    <input type="checkbox" id="sba-tiles" class="task-checkbox">
+                    <label for="sba-tiles">Scrub shower tiles and grout thoroughly</label>
+                </div>
+                <div class="task">
+                    <input type="checkbox" id="sba-tub" class="task-checkbox">
+                    <label for="sba-tub">Scrub bathtub/shower floor and walls</label>
+                </div>
+                <div class="task">
+                    <input type="checkbox" id="sba-door" class="task-checkbox">
+                    <label for="sba-door">Clean shower door/curtain and tracks</label>
+                </div>
+                <div class="task">
+                    <input type="checkbox" id="sba-drain" class="task-checkbox">
+                    <label for="sba-drain">Remove hair and clean drain</label>
+                </div>
+            </div>
+
+            <div class="task-group">
+                <div class="task-group-title">Sink & Counter</div>
+                <div class="task">
+                    <input type="checkbox" id="sba-faucet" class="task-checkbox">
+                    <label for="sba-faucet">Descale and polish sink faucet</label>
+                </div>
+                <div class="task">
+                    <input type="checkbox" id="sba-sink" class="task-checkbox">
+                    <label for="sba-sink">Scrub sink - remove hard water stains</label>
+                </div>
+                <div class="task">
+                    <input type="checkbox" id="sba-soap" class="task-checkbox">
+                    <label for="sba-soap">Clean and refill soap dispenser</label>
+                </div>
+                <div class="task">
+                    <input type="checkbox" id="sba-countertop" class="task-checkbox">
+                    <label for="sba-countertop">Disinfect all countertops thoroughly</label>
+                </div>
+                <div class="task">
+                    <input type="checkbox" id="sba-mirror" class="task-checkbox">
+                    <label for="sba-mirror">Clean mirror - remove water spots</label>
+                </div>
+            </div>
+
+            <div class="task-group">
+                <div class="task-group-title">Toilet & Final Touches</div>
+                <div class="task">
+                    <input type="checkbox" id="sba-toilet-bowl" class="task-checkbox">
+                    <label for="sba-toilet-bowl">Deep clean toilet bowl with cleaner and brush</label>
+                </div>
+                <div class="task">
+                    <input type="checkbox" id="sba-toilet-ext" class="task-checkbox">
+                    <label for="sba-toilet-ext">Disinfect toilet exterior - seat, base, behind</label>
+                </div>
+                <div class="task">
+                    <input type="checkbox" id="sba-plunger" class="task-checkbox">
+                    <label for="sba-plunger">Disinfect plunger and holder</label>
+                </div>
+                <div class="task">
+                    <input type="checkbox" id="sba-cabinets" class="task-checkbox">
+                    <label for="sba-cabinets">Wipe down cabinet fronts and hardware</label>
+                </div>
+                <div class="task">
+                    <input type="checkbox" id="sba-baseboards" class="task-checkbox">
+                    <label for="sba-baseboards">Wipe down baseboards</label>
+                </div>
+                <div class="task">
+                    <input type="checkbox" id="sba-floor" class="task-checkbox">
+                    <label for="sba-floor">Sweep and mop floor - attention to corners</label>
+                </div>
+                <div class="task">
+                    <input type="checkbox" id="sba-trash" class="task-checkbox">
+                    <label for="sba-trash">Empty trash and disinfect trash can</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">
+                <div class="section-icon">🛋️</div>
+                Living Room Deep Clean
+            </div>
+
+            <div class="task-group">
+                <div class="task-group-title">High Areas First</div>
+                <div class="task">
+                    <input type="checkbox" id="lr-ceiling-fan" class="task-checkbox">
+                    <label for="lr-ceiling-fan">Dust ceiling fan blades and light fixtures</label>
+                </div>
+                <div class="task">
+                    <input type="checkbox" id="lr-corners" class="task-checkbox">
+                    <label for="lr-corners">Remove cobwebs from corners</label>
+                </div>
+                <div class="task">
+                    <input type="checkbox" id="lr-vents" class="task-checkbox">
+                    <label for="lr-vents">Clean air vents and return grilles</label>
+                </div>
+            </div>
+
+            <div class="task-group">
+                <div class="task-group-title">Entertainment & Electronics</div>
+                <div class="task">
+                    <input type="checkbox" id="lr-tv" class="task-checkbox">
+                    <label for="lr-tv">Clean TV screen carefully</label>
+                </div>
+                <div class="task">
+                    <input type="checkbox" id="lr-tv-stand" class="task-checkbox">
+                    <label for="lr-tv-stand">Dust TV stand and entertainment center</label>
+                </div>
+                <div class="task priority-task">
+                    <input type="checkbox" id="lr-behind-tv" class="task-checkbox">
+                    <label for="lr-behind-tv">VACUUM UP all the dust from behind the living room entertainment center - it's been building up and needs a thorough cleaning</label>
+                </div>
+                <div class="task">
+                    <input type="checkbox" id="lr-speakers" class="task-checkbox">
+                    <label for="lr-speakers">Dust speakers and sound equipment</label>
+                </div>
+            </div>
+
+            <div class="task-group">
+                <div class="task-group-title">Furniture & Surfaces</div>
+                <div class="task">
+                    <input type="checkbox" id="lr-windows" class="task-checkbox">
+                    <label for="lr-windows">Clean windows - glass, sills, frames</label>
+                </div>
+                <div class="task">
+                    <input type="checkbox" id="lr-window-tracks" class="task-checkbox">
+                    <label for="lr-window-tracks">Clean window tracks</label>
+                </div>
+                <div class="task">
+                    <input type="checkbox" id="lr-blinds" class="task-checkbox">
+                    <label for="lr-blinds">Dust blinds or wash curtains</label>
+                </div>
+                <div class="task">
+                    <input type="checkbox" id="lr-furniture-dust" class="task-checkbox">
+                    <label for="lr-furniture-dust">Dust all furniture - coffee table, side tables, shelves</label>
+                </div>
+                <div class="task">
+                    <input type="checkbox" id="lr-couch" class="task-checkbox">
+                    <label for="lr-couch">Vacuum and wipe down couch/sofa</label>
+                </div>
+                <div class="task">
+                    <input type="checkbox" id="lr-cushions" class="task-checkbox">
+                    <label for="lr-cushions">Vacuum couch cushions and clean under them</label>
+                </div>
+                <div class="task">
+                    <input type="checkbox" id="lr-decor" class="task-checkbox">
+                    <label for="lr-decor">Dust decorative items, lamps, and picture frames</label>
+                </div>
+                <div class="task">
+                    <input type="checkbox" id="lr-switches" class="task-checkbox">
+                    <label for="lr-switches">Disinfect light switches and outlets</label>
+                </div>
+            </div>
+
+            <div class="task-group">
+                <div class="task-group-title">Lower Areas & Floors</div>
+                <div class="task">
+                    <input type="checkbox" id="lr-baseboards" class="task-checkbox">
+                    <label for="lr-baseboards">Wipe down all baseboards</label>
+                </div>
+                <div class="task">
+                    <input type="checkbox" id="lr-vacuum" class="task-checkbox">
+                    <label for="lr-vacuum">Vacuum thoroughly - under furniture, in corners</label>
+                </div>
+                <div class="task">
+                    <input type="checkbox" id="lr-mop" class="task-checkbox">
+                    <label for="lr-mop">Mop or carpet clean floor</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">
+                <div class="section-icon">🍽️</div>
+                Dining Room Deep Clean
+            </div>
+
+            <div class="task-group">
+                <div class="task-group-title">High to Mid-Level</div>
+                <div class="task">
+                    <input type="checkbox" id="dr-light" class="task-checkbox">
+                    <label for="dr-light">Clean light fixture/chandelier</label>
+                </div>
+                <div class="task">
+                    <input type="checkbox" id="dr-corners" class="task-checkbox">
+                    <label for="dr-corners">Remove cobwebs from corners</label>
+                </div>
+                <div class="task">
+                    <input type="checkbox" id="dr-windows" class="task-checkbox">
+                    <label for="dr-windows">Clean windows - glass, sills, frames</label>
+                </div>
+                <div class="task">
+                    <input type="checkbox" id="dr-window-tracks" class="task-checkbox">
+                    <label for="dr-window-tracks">Clean window tracks</label>
+                </div>
+            </div>
+
+            <div class="task-group">
+                <div class="task-group-title">Furniture & Surfaces</div>
+                <div class="task">
+                    <input type="checkbox" id="dr-table-clean" class="task-checkbox">
+                    <label for="dr-table-clean">Clean dining table thoroughly - polish if wood</label>
+                </div>
+                <div class="task">
+                    <input type="checkbox" id="dr-chairs" class="task-checkbox">
+                    <label for="dr-chairs">Clean all chairs - legs, backs, seats</label>
+                </div>
+                <div class="task">
+                    <input type="checkbox" id="dr-sideboard" class="task-checkbox">
+                    <label for="dr-sideboard">Dust and clean sideboard/buffet</label>
+                </div>
+                <div class="task">
+                    <input type="checkbox" id="dr-decor" class="task-checkbox">
+                    <label for="dr-decor">Dust decorative items</label>
+                </div>
+            </div>
+
+            <div class="task-group">
+                <div class="task-group-title">Lower Areas & Floors</div>
+                <div class="task">
+                    <input type="checkbox" id="dr-baseboards" class="task-checkbox">
+                    <label for="dr-baseboards">Wipe down baseboards</label>
+                </div>
+                <div class="task">
+                    <input type="checkbox" id="dr-vacuum" class="task-checkbox">
+                    <label for="dr-vacuum">Vacuum thoroughly - under table and chairs</label>
+                </div>
+                <div class="task">
+                    <input type="checkbox" id="dr-mop" class="task-checkbox">
+                    <label for="dr-mop">Mop or carpet clean floor</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">
+                <div class="section-icon">✨</div>
+                Shared & Common Areas
+            </div>
+
+            <div class="task-group">
+                <div class="task-group-title">Hallway & Entry</div>
+                <div class="task">
+                    <input type="checkbox" id="shared-hallway" class="task-checkbox">
+                    <label for="shared-hallway">Clean hallway - dust, vacuum, wipe walls</label>
+                </div>
+                <div class="task">
+                    <input type="checkbox" id="shared-front-door" class="task-checkbox">
+                    <label for="shared-front-door">Clean front door interior and hardware</label>
+                </div>
+                <div class="task">
+                    <input type="checkbox" id="shared-mat" class="task-checkbox">
+                    <label for="shared-mat">Shake out or vacuum entry mat</label>
+                </div>
+            </div>
+
+            <div class="task-group">
+                <div class="task-group-title">Final Touches</div>
+                <div class="task">
+                    <input type="checkbox" id="shared-lightbulbs" class="task-checkbox">
+                    <label for="shared-lightbulbs">Check and replace any burnt-out light bulbs</label>
+                </div>
+                <div class="task">
+                    <input type="checkbox" id="shared-trash" class="task-checkbox">
+                    <label for="shared-trash">Empty all trash cans in your zones</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>Fantastic work covering so many areas! 🌟 Thank you for your comprehensive deep cleaning!</p>
+        </div>
+    </div>
+
+    <script>
+        // Set current date
+        const dateEl = document.getElementById('currentDate');
+        if (dateEl) {
+            dateEl.textContent = 'Monday, December 09, 2025';
+        }
+
+        // Update progress bar
+        function updateProgress() {
+            const checkboxes = document.querySelectorAll('.task-checkbox');
+            const checkedBoxes = document.querySelectorAll('.task-checkbox:checked');
+            const total = checkboxes.length;
+            const progress = total ? (checkedBoxes.length / total) * 100 : 0;
+            document.getElementById('progressBar').style.width = progress + '%';
+
+            // Save state to localStorage
+            checkboxes.forEach(checkbox => {
+                localStorage.setItem('team-member-2-dec9-' + checkbox.id, checkbox.checked);
+            });
+        }
+
+        // Load saved state
+        function loadState() {
+            const checkboxes = document.querySelectorAll('.task-checkbox');
+            checkboxes.forEach(checkbox => {
+                const saved = localStorage.getItem('team-member-2-dec9-' + checkbox.id);
+                if (saved === 'true') {
+                    checkbox.checked = true;
+                }
+            });
+            updateProgress();
+        }
+
+        // Add event listeners
+        document.querySelectorAll('.task-checkbox').forEach(checkbox => {
+            checkbox.addEventListener('change', updateProgress);
+        });
+
+        // Make the entire task row tappable on mobile
+        document.querySelectorAll('.task').forEach(task => {
+            task.addEventListener('click', (event) => {
+                if (event.target.tagName === 'INPUT' || event.target.tagName === 'LABEL') {
+                    return;
+                }
+                const checkbox = task.querySelector('input[type="checkbox"]');
+                if (checkbox) {
+                    checkbox.checked = !checkbox.checked;
+                    updateProgress();
+                }
+            });
+        });
+
+        // Load state on page load
+        loadState();
+    </script>
+</body>
+</html>
