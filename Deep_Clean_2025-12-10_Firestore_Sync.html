@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -1747,6 +1747,13 @@
             checkForExistingSession();
         });
 
+        // Save progress before page unload
+        window.addEventListener('beforeunload', () => {
+            if (currentSessionId) {
+                syncToFirestore();
+            }
+        });
+
         async function checkForExistingSession() {
             // Check if there's an existing session in localStorage
             const savedSessionId = localStorage.getItem('firestore-session-id');
@@ -1816,7 +1823,7 @@
                 document.getElementById('migrationStatus').innerHTML = `
                     <div style="text-align: center; color: var(--success);">
                         <div style="font-size: 32px; margin-bottom: 8px;">✓</div>
-                        <p>Migration complete! Your progress is now ready to sync.</p>
+                        <p>Found your in-progress work. It will sync after you start your session.</p>
                     </div>
                 `;
 
@@ -2046,7 +2053,8 @@
 
         function handleCheckboxChange() {
             updateProgress();
-            debouncedSyncToFirestore();
+            // Sync immediately for critical checkbox changes
+            syncToFirestore();
         }
 
         function handleNotesChange() {
@@ -2308,3 +2316,4 @@
     </script>
 </body>
 </html>
+
