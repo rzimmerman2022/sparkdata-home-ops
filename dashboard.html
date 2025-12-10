@@ -684,7 +684,7 @@
         // Auto-find most recent active session
         async function findAndStartDashboard() {
             try {
-                const snapshot = await db.collection('cleaning-sessions')
+                const snapshot = await db.collection('sessions/dec10-2025/cleaners')
                     .where('status', '==', 'active')
                     .orderBy('startTime', 'desc')
                     .limit(1)
@@ -707,15 +707,26 @@
 
         async function startDashboard(sessionId) {
             try {
-                // Set up listener for session metadata
-                const sessionUnsubscribe = db.collection('cleaning-sessions').doc(sessionId)
-                    .onSnapshot(async doc => {
-                        if (!doc.exists) {
-                            showError('Session Not Found', `Could not find session: ${sessionId}`);
+                // Set up listener for ALL active cleaners (not just one session)
+                const cleanersUnsubscribe = db.collection('sessions/dec10-2025/cleaners')
+                    .where('status', '==', 'active')
+                    .onSnapshot(async snapshot => {
+                        if (snapshot.empty) {
+                            showError('No Active Session', 'No cleaning session is currently in progress.');
                             return;
                         }
 
-                        const sessionData = doc.data();
+                        // Get all active cleaner sessions
+                        const activeSessions = [];
+                        snapshot.forEach(doc => {
+                            activeSessions.push({
+                                id: doc.id,
+                                ...doc.data()
+                            });
+                        });
+
+                        // Use the most recent session for display (or combine data)
+                        const sessionData = activeSessions[0];
 
                         // Set up listener for task progress
                         const progressUnsubscribe = db.collection('sessions/dec10-2025/progress')
@@ -725,7 +736,7 @@
                                     taskData[doc.id] = doc.data();
                                 });
 
-                                updateDashboard(sessionData, taskData);
+                                updateDashboard(sessionData, taskData, activeSessions);
 
                                 // Show dashboard, hide loading
                                 document.getElementById('loadingState').style.display = 'none';
@@ -737,7 +748,7 @@
                             unsubscribe();
                         }
                         unsubscribe = () => {
-                            sessionUnsubscribe();
+                            cleanersUnsubscribe();
                             progressUnsubscribe();
                         };
                     }, error => {
@@ -751,24 +762,47 @@
             }
         }
 
-        function updateDashboard(sessionData, taskData) {
-            // Update status
+        function updateDashboard(sessionData, taskData, activeSessions = []) {
+            // Update status - show combined info if multiple cleaners
             const isActive = sessionData.status === 'active';
             const statusIndicator = document.getElementById('statusIndicator');
             const statusBadge = document.getElementById('statusBadge');
 
             statusIndicator.className = 'status-indicator ' + (isActive ? 'active' : 'completed');
             statusBadge.className = 'status-badge ' + (isActive ? 'active' : 'completed');
-            statusBadge.textContent = isActive ? 'In Progress' : 'Completed';
 
-            // Update start time
+            // Show number of active cleaners if more than one
+            if (activeSessions.length > 1) {
+                statusBadge.textContent = `${activeSessions.length} Cleaners Active`;
+            } else {
+                statusBadge.textContent = isActive ? 'In Progress' : 'Completed';
+            }
+
+            // Update start time - show earliest start time if multiple cleaners
             if (sessionData.startTime) {
                 sessionStartTime = sessionData.startTime.toDate();
+
+                // If multiple cleaners, find earliest start time
+                if (activeSessions.length > 1) {
+                    const earliestSession = activeSessions.reduce((earliest, session) => {
+                        const sessionTime = session.startTime.toDate();
+                        return sessionTime < earliest.startTime.toDate() ? session : earliest;
+                    });
+                    sessionStartTime = earliestSession.startTime.toDate();
+                }
+
                 const timeStr = sessionStartTime.toLocaleTimeString('en-US', {
                     hour: '2-digit',
                     minute: '2-digit'
                 });
-                document.getElementById('startTime').textContent = timeStr;
+
+                // Show cleaner names if available
+                if (activeSessions.length > 0) {
+                    const cleanerNames = activeSessions.map(s => s.name).join(', ');
+                    document.getElementById('startTime').textContent = `${timeStr} (${cleanerNames})`;
+                } else {
+                    document.getElementById('startTime').textContent = timeStr;
+                }
 
                 // Start timer if active
                 if (isActive && !timerInterval) {
