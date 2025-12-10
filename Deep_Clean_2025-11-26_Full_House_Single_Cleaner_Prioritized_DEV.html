@@ -12,6 +12,33 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Firebase SDK (Compat version for vanilla JS) -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+
+    <script>
+        // Firebase Configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyCVHDGBL70opBifmdnILzrUYEptQsMw708",
+            authDomain: "sparkdata-cleaning-checklists.firebaseapp.com",
+            projectId: "sparkdata-cleaning-checklists",
+            storageBucket: "sparkdata-cleaning-checklists.firebasestorage.app",
+            messagingSenderId: "825900465348",
+            appId: "1:825900465348:web:d28f2742e527513311dd91"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+
+        // Enable offline persistence
+        db.enablePersistence({ synchronizeTabs: true })
+            .catch((err) => {
+                console.warn('Firebase persistence failed:', err.code);
+            });
+    </script>
+
     <style>
         :root {
             --primary: #0f172a;
@@ -593,6 +620,151 @@
             color: white;
         }
 
+        /* Session Controls */
+        .session-controls {
+            background: var(--surface);
+            border-radius: var(--radius-lg);
+            padding: 20px 24px;
+            margin-bottom: 24px;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--border);
+            text-align: center;
+        }
+
+        .btn-start {
+            background: linear-gradient(135deg, var(--success), #059669);
+            color: white;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 16px 32px;
+            font-size: 16px;
+            font-weight: 700;
+            border: none;
+            cursor: pointer;
+            border-radius: var(--radius-md);
+            transition: all 0.2s ease;
+        }
+
+        .btn-start:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
+        }
+
+        .btn-start:disabled {
+            background: var(--border);
+            color: var(--text-muted);
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .session-info {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            align-items: center;
+            margin-top: 16px;
+            font-size: 14px;
+            color: var(--text-secondary);
+            flex-wrap: wrap;
+        }
+
+        .session-status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+        }
+
+        .status-indicator {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--text-muted);
+        }
+
+        .status-indicator.active {
+            background: var(--success);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .sync-status {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 13px;
+            padding: 6px 12px;
+            border-radius: var(--radius-sm);
+            background: var(--success-light);
+            color: #065f46;
+        }
+
+        .sync-status.syncing {
+            background: var(--accent-light);
+            color: #1e40af;
+        }
+
+        .sync-status.offline {
+            background: var(--warning-light);
+            color: #92400e;
+        }
+
+        .sync-status.error {
+            background: var(--danger-light);
+            color: #991b1b;
+        }
+
+        .btn-stop {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: white;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 24px;
+            font-size: 14px;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            border-radius: var(--radius-md);
+            transition: all 0.2s ease;
+            margin-top: 12px;
+        }
+
+        .btn-stop:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4);
+        }
+
+        .btn-stop:disabled {
+            background: var(--border);
+            color: var(--text-muted);
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .session-duration {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--text-primary);
+            padding: 8px 16px;
+            background: var(--surface-hover);
+            border-radius: var(--radius-md);
+            margin-top: 8px;
+        }
+
+        .session-completed {
+            color: var(--success);
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
         .summary-modal {
             display: none;
             position: fixed;
@@ -692,6 +864,34 @@
                 </span>
             </div>
         </header>
+
+        <!-- Session Controls -->
+        <div class="session-controls" id="sessionControls">
+            <button type="button" class="btn btn-start" id="startBtn" onclick="startSession()">
+                <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <circle cx="12" cy="12" r="10"/><polygon points="10,8 16,12 10,16" fill="currentColor"/>
+                </svg>
+                Start Session
+            </button>
+            <div class="session-info" id="sessionInfo" style="display: none;">
+                <div class="session-status">
+                    <span class="status-indicator active" id="statusIndicator"></span>
+                    <span id="sessionStatusText">Session Active</span>
+                </div>
+                <div class="session-time">Started: <span id="sessionStartTime">--</span></div>
+                <div class="sync-status" id="syncStatus">
+                    <span>●</span>
+                    <span>Synced</span>
+                </div>
+                <div id="sessionDuration" class="session-duration" style="display: none;"></div>
+                <button type="button" class="btn btn-stop" id="stopBtn" onclick="stopSession()" style="display: none;">
+                    <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24">
+                        <rect x="6" y="6" width="12" height="12" rx="2"/>
+                    </svg>
+                    Stop Session
+                </button>
+            </div>
+        </div>
 
         <!-- Progress -->
         <div class="progress-container">
@@ -870,7 +1070,11 @@
             <div class="section-content">
                 <div class="alert-card info" style="margin-bottom: 16px; padding: 14px;">
                     <div class="alert-header" style="margin-bottom: 4px; font-size: 13px;">
-                        <span class="alert-icon">i</span>
+                        <svg class="alert-icon" width="20" height="20" fill="none" viewBox="0 0 24 24" style="display: inline-block; vertical-align: middle; margin-right: 4px;">
+                            <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
+                            <line x1="12" y1="16" x2="12" y2="12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                            <circle cx="12" cy="8" r="1.5" fill="currentColor"/>
+                        </svg>
                         Please spend about 30 minutes on organization, then move on to cleaning
                     </div>
                     <div class="alert-content" style="font-size: 12px;">
@@ -937,7 +1141,11 @@
             <div class="section-content">
                 <div class="alert-card info" style="margin-bottom: 16px; padding: 14px;">
                     <div class="alert-header" style="margin-bottom: 4px; font-size: 13px;">
-                        <span class="alert-icon">i</span>
+                        <svg class="alert-icon" width="20" height="20" fill="none" viewBox="0 0 24 24" style="display: inline-block; vertical-align: middle; margin-right: 4px;">
+                            <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
+                            <line x1="12" y1="16" x2="12" y2="12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                            <circle cx="12" cy="8" r="1.5" fill="currentColor"/>
+                        </svg>
                         Please do not touch or clean any monitors
                     </div>
                     <div class="alert-content" style="font-size: 12px;">
@@ -1228,7 +1436,11 @@
         <!-- Time-Saver Tips -->
         <div class="alert-card info">
             <div class="alert-header">
-                <span class="alert-icon">i</span>
+                <svg class="alert-icon" width="20" height="20" fill="none" viewBox="0 0 24 24" style="display: inline-block; vertical-align: middle; margin-right: 4px;">
+                    <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
+                    <line x1="12" y1="16" x2="12" y2="12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    <circle cx="12" cy="8" r="1.5" fill="currentColor"/>
+                </svg>
                 Time-Saving Strategy
             </div>
             <div class="alert-content">
@@ -1273,6 +1485,226 @@
     </div>
 
     <script>
+        // ========================================
+        // SESSION MANAGEMENT & FIREBASE SYNC
+        // ========================================
+
+        let currentSessionId = null;
+        let sessionStartTime = null;
+        let syncInterval = null;
+        let lastSyncTime = 0;
+        const SYNC_INTERVAL = 45000; // 45 seconds
+
+        // Generate unique session ID
+        function generateSessionId() {
+            const timestamp = Date.now();
+            const random = Math.random().toString(36).substr(2, 9);
+            return `session_${timestamp}_${random}`;
+        }
+
+        // Start new cleaning session
+        function startSession() {
+            if (currentSessionId) {
+                alert('Session already started!');
+                return;
+            }
+
+            // Generate session ID
+            currentSessionId = generateSessionId();
+            sessionStartTime = new Date();
+
+            // Save to localStorage
+            localStorage.setItem('currentSessionId', currentSessionId);
+            localStorage.setItem('sessionStartTime', sessionStartTime.toISOString());
+
+            // Create session in Firestore
+            createFirestoreSession();
+
+            // Update UI
+            document.getElementById('startBtn').disabled = true;
+            document.getElementById('startBtn').textContent = 'Session Started';
+            document.getElementById('sessionInfo').style.display = 'flex';
+            document.getElementById('sessionStartTime').textContent = sessionStartTime.toLocaleTimeString('en-US', {
+                hour: '2-digit', minute: '2-digit'
+            });
+            document.getElementById('stopBtn').style.display = 'inline-flex';
+
+            // Start auto-sync
+            startAutoSync();
+
+            console.log('Session started:', currentSessionId);
+        }
+
+        // Stop cleaning session (clock out)
+        async function stopSession() {
+            if (!currentSessionId) {
+                alert('No active session to stop!');
+                return;
+            }
+
+            const sessionEndTime = new Date();
+            const durationMs = sessionEndTime - sessionStartTime;
+            const hours = Math.floor(durationMs / 3600000);
+            const minutes = Math.floor((durationMs % 3600000) / 60000);
+            const durationText = hours > 0
+                ? `${hours} hour${hours > 1 ? 's' : ''} ${minutes} min${minutes !== 1 ? 's' : ''}`
+                : `${minutes} minute${minutes !== 1 ? 's' : ''}`;
+
+            // Save end time to localStorage
+            localStorage.setItem('sessionEndTime', sessionEndTime.toISOString());
+
+            // Stop auto-sync
+            stopAutoSync();
+
+            // Update Firestore with end time and status
+            try {
+                await db.collection('cleaning-sessions').doc(currentSessionId).update({
+                    endTime: firebase.firestore.Timestamp.fromDate(sessionEndTime),
+                    status: 'completed',
+                    lastSyncTime: firebase.firestore.FieldValue.serverTimestamp()
+                });
+                console.log('Session stopped:', currentSessionId, 'Duration:', durationText);
+            } catch (error) {
+                console.error('Error stopping session:', error);
+            }
+
+            // Update UI
+            document.getElementById('stopBtn').disabled = true;
+            document.getElementById('stopBtn').textContent = 'Session Stopped';
+            document.getElementById('statusIndicator').classList.remove('active');
+            document.getElementById('sessionStatusText').innerHTML = '<span class="session-completed">✓ Session Completed</span>';
+            document.getElementById('syncStatus').style.display = 'none';
+            document.getElementById('sessionDuration').style.display = 'block';
+            document.getElementById('sessionDuration').textContent = `Duration: ${durationText}`;
+        }
+
+        // Create Firestore session document
+        async function createFirestoreSession() {
+            try {
+                const checkboxes = document.querySelectorAll('.task-checkbox');
+                const tasksMap = {};
+
+                checkboxes.forEach(cb => {
+                    tasksMap[cb.id] = {
+                        checked: cb.checked,
+                        lastUpdated: firebase.firestore.FieldValue.serverTimestamp()
+                    };
+                });
+
+                await db.collection('cleaning-sessions').doc(currentSessionId).set({
+                    sessionId: currentSessionId,
+                    startTime: firebase.firestore.Timestamp.fromDate(sessionStartTime),
+                    endTime: null,
+                    status: 'active',
+                    checklistType: 'single-cleaner',
+                    checklistDate: '2025-11-26',
+                    progress: 0,
+                    completedCount: 0,
+                    totalCount: checkboxes.length,
+                    lastSyncTime: firebase.firestore.FieldValue.serverTimestamp(),
+                    notes: '',
+                    tasks: tasksMap
+                });
+
+                updateSyncStatus('success');
+                console.log('Firestore session created:', currentSessionId);
+            } catch (error) {
+                console.error('Error creating Firestore session:', error);
+                updateSyncStatus('error');
+            }
+        }
+
+        // Start auto-sync
+        function startAutoSync() {
+            if (syncInterval) {
+                clearInterval(syncInterval);
+            }
+
+            syncInterval = setInterval(() => {
+                syncToFirestore();
+            }, SYNC_INTERVAL);
+
+            console.log('Auto-sync started (every 45 seconds)');
+        }
+
+        // Stop auto-sync
+        function stopAutoSync() {
+            if (syncInterval) {
+                clearInterval(syncInterval);
+                syncInterval = null;
+            }
+        }
+
+        // Sync current state to Firestore
+        async function syncToFirestore() {
+            if (!currentSessionId) {
+                return;
+            }
+
+            updateSyncStatus('syncing');
+
+            try {
+                const checkboxes = document.querySelectorAll('.task-checkbox');
+                const tasksMap = {};
+                let completedCount = 0;
+
+                checkboxes.forEach(cb => {
+                    const isChecked = cb.checked;
+                    tasksMap[cb.id] = {
+                        checked: isChecked,
+                        lastUpdated: firebase.firestore.FieldValue.serverTimestamp()
+                    };
+                    if (isChecked) completedCount++;
+                });
+
+                const progress = Math.round((completedCount / checkboxes.length) * 100);
+                const notes = document.getElementById('cleanerNotes').value;
+
+                await db.collection('cleaning-sessions').doc(currentSessionId).update({
+                    tasks: tasksMap,
+                    progress: progress,
+                    completedCount: completedCount,
+                    lastSyncTime: firebase.firestore.FieldValue.serverTimestamp(),
+                    notes: notes
+                });
+
+                lastSyncTime = Date.now();
+                updateSyncStatus('success');
+                console.log('Synced to Firestore:', { progress, completedCount });
+
+            } catch (error) {
+                console.error('Firestore sync error:', error);
+                updateSyncStatus('error');
+            }
+        }
+
+        // Update sync status indicator
+        function updateSyncStatus(status) {
+            const statusEl = document.getElementById('syncStatus');
+            if (!statusEl) return;
+
+            statusEl.className = 'sync-status ' + status;
+
+            const messages = {
+                syncing: '↻ Syncing...',
+                success: '● Synced',
+                error: '⚠ Offline'
+            };
+
+            statusEl.textContent = messages[status] || '● Synced';
+        }
+
+        // Monitor online/offline status
+        window.addEventListener('online', () => {
+            if (currentSessionId) {
+                syncToFirestore();
+            }
+        });
+
+        window.addEventListener('offline', () => {
+            updateSyncStatus('error');
+        });
+
         // Update progress bar and percentage
         function updateProgress() {
             const checkboxes = document.querySelectorAll('.task-checkbox');
@@ -1298,6 +1730,55 @@
                 }
             });
             updateProgress();
+
+            // Restore existing session
+            const savedSessionId = localStorage.getItem('currentSessionId');
+            const savedStartTime = localStorage.getItem('sessionStartTime');
+            const savedEndTime = localStorage.getItem('sessionEndTime');
+
+            if (savedSessionId && savedStartTime) {
+                currentSessionId = savedSessionId;
+                sessionStartTime = new Date(savedStartTime);
+
+                // Restore UI
+                document.getElementById('startBtn').disabled = true;
+                document.getElementById('startBtn').textContent = 'Session Started';
+                document.getElementById('sessionInfo').style.display = 'flex';
+                document.getElementById('sessionStartTime').textContent = sessionStartTime.toLocaleTimeString('en-US', {
+                    hour: '2-digit', minute: '2-digit'
+                });
+
+                // Check if session was already stopped
+                if (savedEndTime) {
+                    const sessionEndTime = new Date(savedEndTime);
+                    const durationMs = sessionEndTime - sessionStartTime;
+                    const hours = Math.floor(durationMs / 3600000);
+                    const minutes = Math.floor((durationMs % 3600000) / 60000);
+                    const durationText = hours > 0
+                        ? `${hours} hour${hours > 1 ? 's' : ''} ${minutes} min${minutes !== 1 ? 's' : ''}`
+                        : `${minutes} minute${minutes !== 1 ? 's' : ''}`;
+
+                    // Show completed state
+                    document.getElementById('stopBtn').style.display = 'inline-flex';
+                    document.getElementById('stopBtn').disabled = true;
+                    document.getElementById('stopBtn').textContent = 'Session Stopped';
+                    document.getElementById('statusIndicator').classList.remove('active');
+                    document.getElementById('sessionStatusText').innerHTML = '<span class="session-completed">✓ Session Completed</span>';
+                    document.getElementById('syncStatus').style.display = 'none';
+                    document.getElementById('sessionDuration').style.display = 'block';
+                    document.getElementById('sessionDuration').textContent = `Duration: ${durationText}`;
+
+                    console.log('Session restored (completed):', currentSessionId);
+                } else {
+                    // Show active state with Stop button
+                    document.getElementById('stopBtn').style.display = 'inline-flex';
+
+                    // Resume auto-sync
+                    startAutoSync();
+
+                    console.log('Session restored (active):', currentSessionId);
+                }
+            }
         }
 
         // Add event listeners
@@ -1381,6 +1862,49 @@
                 hour: '2-digit', minute: '2-digit'
             });
 
+            // Calculate session duration if available
+            let sessionDuration = 'Not tracked';
+            const savedEndTime = localStorage.getItem('sessionEndTime');
+
+            if (sessionStartTime) {
+                const endTime = savedEndTime ? new Date(savedEndTime) : new Date();
+                const durationMs = endTime - sessionStartTime;
+                const hours = Math.floor(durationMs / 3600000);
+                const minutes = Math.floor((durationMs % 3600000) / 60000);
+
+                if (hours > 0) {
+                    sessionDuration = `${hours} hour${hours > 1 ? 's' : ''} ${minutes} minute${minutes !== 1 ? 's' : ''}`;
+                } else {
+                    sessionDuration = `${minutes} minute${minutes !== 1 ? 's' : ''}`;
+                }
+            }
+
+            // Mark session as completed in Firestore (only if not already stopped)
+            if (currentSessionId && !savedEndTime) {
+                try {
+                    await db.collection('cleaning-sessions').doc(currentSessionId).update({
+                        endTime: firebase.firestore.Timestamp.now(),
+                        status: 'completed',
+                        lastSyncTime: firebase.firestore.FieldValue.serverTimestamp()
+                    });
+
+                    // Stop auto-sync
+                    stopAutoSync();
+
+                    console.log('Session completed:', currentSessionId);
+                } catch (error) {
+                    console.error('Error completing session:', error);
+                    // Don't block submission to Google Sheets
+                }
+            }
+
+            // Clear session data from localStorage (after successful Firebase update)
+            if (currentSessionId) {
+                localStorage.removeItem('currentSessionId');
+                localStorage.removeItem('sessionStartTime');
+                localStorage.removeItem('sessionEndTime');
+            }
+
             // Send to Google Sheets
             const submitBtn = document.querySelector('.btn-primary');
             const originalText = submitBtn.textContent;
@@ -1393,6 +1917,7 @@
                 formData.append('completed', completed.join(', '));
                 formData.append('incomplete', incomplete.join(', '));
                 formData.append('notes', notes);
+                formData.append('duration', sessionDuration);
 
                 const response = await fetch(SHEET_API_URL, {
                     method: 'POST',
