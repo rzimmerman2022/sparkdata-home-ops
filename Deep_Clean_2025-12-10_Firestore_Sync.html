@@ -1804,15 +1804,13 @@
 
                 // Store migration data temporarily
                 sessionStorage.setItem('migration-tasks', JSON.stringify(checkedTasks));
+                sessionStorage.setItem('migration-keys', JSON.stringify(oldKeys));
 
                 // Get old notes if any
                 const oldNotes = localStorage.getItem(OLD_LOCALSTORAGE_PREFIX + 'notes') || '';
                 if (oldNotes) {
                     sessionStorage.setItem('migration-notes', oldNotes);
                 }
-
-                // Clear old localStorage
-                oldKeys.forEach(key => localStorage.removeItem(key));
 
                 // Update UI
                 document.getElementById('migrationStatus').innerHTML = `
@@ -1882,6 +1880,16 @@
                     // Clear migration data
                     sessionStorage.removeItem('migration-tasks');
                     sessionStorage.removeItem('migration-notes');
+                    // Remove old localStorage keys now that migration succeeded
+                    const migrationKeys = sessionStorage.getItem('migration-keys');
+                    if (migrationKeys) {
+                        try {
+                            JSON.parse(migrationKeys).forEach(key => localStorage.removeItem(key));
+                        } catch (e) {
+                            console.warn('Could not clear old localStorage keys after migration', e);
+                        }
+                        sessionStorage.removeItem('migration-keys');
+                    }
 
                     // Sync migrated data to Firestore
                     await syncToFirestore();
@@ -1906,7 +1914,8 @@
                 minute: '2-digit'
             });
 
-            // Set up real-time listeners
+            // Load existing progress first, then set up real-time listeners
+            await loadExistingProgress();
             setupProgressListener();
             setupCleanersListener();
 
@@ -1940,6 +1949,24 @@
         // REAL-TIME LISTENERS
         // ========================================
 
+        async function loadExistingProgress() {
+            try {
+                const snapshot = await db.collection(PROGRESS_PATH).get();
+                snapshot.docs.forEach(doc => {
+                    const taskId = doc.id;
+                    const data = doc.data();
+                    const checkbox = document.getElementById(taskId);
+                    if (checkbox) {
+                        checkbox.checked = data.completed || false;
+                    }
+                });
+                updateProgress();
+                console.log('Loaded existing progress:', snapshot.size, 'tasks');
+            } catch (error) {
+                console.error('Error loading existing progress:', error);
+            }
+        }
+
         function setupProgressListener() {
             progressListener = db.collection(PROGRESS_PATH)
                 .onSnapshot(snapshot => {
@@ -1948,10 +1975,10 @@
                             const taskId = change.doc.id;
                             const data = change.doc.data();
 
-                            // Update checkbox if it exists and wasn't changed by current user
+                            // Update checkbox to match Firestore state
                             const checkbox = document.getElementById(taskId);
-                            if (checkbox && data.completedBy !== currentCleanerName) {
-                                checkbox.checked = data.completed;
+                            if (checkbox) {
+                                checkbox.checked = data.completed || false;
                                 updateProgress();
                             }
                         }
