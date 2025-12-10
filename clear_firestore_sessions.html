@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clear Firestore Sessions - SparkData Home Ops</title>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    <style>
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1);
+            max-width: 500px;
+            width: 100%;
+        }
+        h1 {
+            margin: 0 0 20px 0;
+            font-size: 24px;
+            color: #0f172a;
+        }
+        p {
+            color: #64748b;
+            margin-bottom: 20px;
+        }
+        button {
+            width: 100%;
+            padding: 14px;
+            background: #ef4444;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        button:hover {
+            background: #dc2626;
+            transform: translateY(-1px);
+        }
+        button:disabled {
+            background: #94a3b8;
+            cursor: not-allowed;
+            transform: none;
+        }
+        #status {
+            margin-top: 20px;
+            padding: 14px;
+            border-radius: 8px;
+            font-size: 14px;
+            display: none;
+        }
+        .success {
+            background: #d1fae5;
+            color: #166534;
+            border: 1px solid #86efac;
+        }
+        .error {
+            background: #fee2e2;
+            color: #991b1b;
+            border: 1px solid #fca5a5;
+        }
+        .info {
+            background: #dbeafe;
+            color: #1e40af;
+            border: 1px solid #93c5fd;
+        }
+        .warning {
+            background: #fef3c7;
+            color: #92400e;
+            border: 1px solid #fcd34d;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧹 Clear Firestore Sessions</h1>
+        <p>This will delete all test sessions and progress data from Firestore for December 10, 2025.</p>
+        <p><strong>⚠️ Warning:</strong> This action cannot be undone!</p>
+        <button id="clearBtn" onclick="clearAllSessions()">Clear All Sessions & Progress</button>
+        <div id="status"></div>
+    </div>
+
+    <script>
+        // Firebase Configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyCVHDGBL70opBifmdnILzrUYEptQsMw708",
+            authDomain: "sparkdata-cleaning-checklists.firebaseapp.com",
+            projectId: "sparkdata-cleaning-checklists",
+            storageBucket: "sparkdata-cleaning-checklists.firebasestorage.app",
+            messagingSenderId: "825900465348",
+            appId: "1:825900465348:web:d28f2742e527513311dd91"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+
+        const COLLECTION_PATH = 'sessions/dec10-2025/cleaners';
+        const PROGRESS_PATH = 'sessions/dec10-2025/progress';
+
+        async function clearAllSessions() {
+            const btn = document.getElementById('clearBtn');
+            const status = document.getElementById('status');
+
+            if (!confirm('Are you absolutely sure? This will delete ALL sessions and progress data!')) {
+                return;
+            }
+
+            btn.disabled = true;
+            btn.textContent = 'Clearing...';
+            status.style.display = 'block';
+            status.className = 'info';
+            status.textContent = 'Starting cleanup...';
+
+            try {
+                let totalDeleted = 0;
+
+                // Delete all cleaner sessions
+                status.textContent = 'Deleting cleaner sessions...';
+                const cleanersSnapshot = await db.collection(COLLECTION_PATH).get();
+                const cleanerDeleteBatch = db.batch();
+
+                cleanersSnapshot.docs.forEach(doc => {
+                    cleanerDeleteBatch.delete(doc.ref);
+                    totalDeleted++;
+                });
+
+                if (cleanersSnapshot.docs.length > 0) {
+                    await cleanerDeleteBatch.commit();
+                    console.log(`Deleted ${cleanersSnapshot.docs.length} cleaner sessions`);
+                }
+
+                // Delete all progress data
+                status.textContent = 'Deleting progress data...';
+                const progressSnapshot = await db.collection(PROGRESS_PATH).get();
+
+                // Firestore batch limit is 500, so we need to batch them
+                const progressBatches = [];
+                let currentBatch = db.batch();
+                let batchCount = 0;
+
+                progressSnapshot.docs.forEach((doc, index) => {
+                    currentBatch.delete(doc.ref);
+                    batchCount++;
+                    totalDeleted++;
+
+                    // Every 500 docs or on last doc, commit the batch
+                    if (batchCount === 500 || index === progressSnapshot.docs.length - 1) {
+                        progressBatches.push(currentBatch.commit());
+                        currentBatch = db.batch();
+                        batchCount = 0;
+                    }
+                });
+
+                await Promise.all(progressBatches);
+                console.log(`Deleted ${progressSnapshot.docs.length} progress documents`);
+
+                // Clear localStorage
+                localStorage.removeItem('firestore-session-id');
+                localStorage.removeItem('firestore-cleaner-name');
+                localStorage.removeItem('firestore-start-time');
+
+                // Success!
+                status.className = 'success';
+                status.textContent = `✅ Successfully deleted ${totalDeleted} documents! (${cleanersSnapshot.docs.length} sessions + ${progressSnapshot.docs.length} progress items)`;
+                btn.textContent = 'Cleared!';
+
+                setTimeout(() => {
+                    btn.disabled = false;
+                    btn.textContent = 'Clear All Sessions & Progress';
+                }, 3000);
+
+            } catch (error) {
+                console.error('Error clearing sessions:', error);
+                status.className = 'error';
+                status.textContent = `❌ Error: ${error.message}`;
+                btn.disabled = false;
+                btn.textContent = 'Clear All Sessions & Progress';
+            }
+        }
+    </script>
+</body>
+</html>

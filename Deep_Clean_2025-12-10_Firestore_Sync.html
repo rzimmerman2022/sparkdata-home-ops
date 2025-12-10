@@ -1836,12 +1836,16 @@
         }
 
         async function startNewSession() {
+            console.log('🔵 startNewSession called!');
             const cleanerName = document.getElementById('cleanerNameInput').value.trim();
+            console.log('🔵 Cleaner name:', cleanerName);
 
             if (!cleanerName) {
                 alert('Please enter your name');
                 return;
             }
+
+            console.log('🔵 Creating session...');
 
             currentCleanerName = cleanerName;
             sessionStartTime = new Date();
@@ -1907,8 +1911,9 @@
                 initializeSession();
 
             } catch (error) {
-                console.error('Error creating session:', error);
-                alert('Failed to create session. Please check your internet connection.');
+                console.error('🔴 Error creating session:', error);
+                console.error('🔴 Error details:', error.message, error.code);
+                alert('Failed to create session: ' + error.message);
             }
         }
 
