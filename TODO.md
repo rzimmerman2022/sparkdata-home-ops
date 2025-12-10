@@ -2,7 +2,7 @@
 
 > **This is the SINGLE source of truth for all tasks.** All other docs (progress reports, handoffs, state files) reference back to this file.
 
-**Last Updated:** 2025-11-28
+**Last Updated:** 2025-12-09
 **Project:** SparkData Home Ops - Cleaning Checklists
 
 ---
@@ -34,6 +34,13 @@
 | Merge DEV file changes to production | Claude Opus 4.5 | 2025-11-28 | 00:50 UTC |
 | Push Google Sheets integration to GitHub main branch | Claude Opus 4.5 | 2025-11-28 | 00:50 UTC |
 | Create handoff documentation (progress report, state file, handoff doc) for sheets-int-001 | Claude Opus 4.5 | 2025-11-28 | 00:57 UTC |
+| Add Firebase SDK to DEV checklist file (Firestore compat v10.7.1) | Claude Sonnet 4.5 | 2025-12-09 | ~18:00 EST |
+| Implement START button UI and session management | Claude Sonnet 4.5 | 2025-12-09 | ~18:30 EST |
+| Add real-time Firebase sync functionality (45-second auto-sync) | Claude Sonnet 4.5 | 2025-12-09 | ~19:00 EST |
+| Create comprehensive Firebase documentation (4 files in docs/firebase/) | Claude Sonnet 4.5 | 2025-12-09 | ~19:30 EST |
+| Fix alert icon display (replace text "i" with SVG icons) | Claude Sonnet 4.5 | 2025-12-09 | ~20:00 EST |
+| Add STOP SESSION button for clock-out tracking and duration calculation | Claude Sonnet 4.5 | 2025-12-09 | ~20:30 EST |
+| Merge Firebase feature branch to main and push to GitHub | Claude Sonnet 4.5 | 2025-12-09 | ~21:00 EST |
 
 ### Completed Task Details
 
@@ -56,6 +63,25 @@
 - Fixed standalone script issue (openById vs getActiveSpreadsheet)
 - Deployed production checklist with remote session logging
 
+**Firebase Real-Time Sync Integration (firebase-001)**
+
+- Integrated Firebase Firestore SDK (compat v10.7.1) via CDN
+- Created START SESSION button that logs clock-in time and creates Firestore session
+- Created STOP SESSION button that logs clock-out time and calculates duration
+- Implemented auto-sync every 45 seconds to balance real-time updates with API costs
+- Added offline persistence with IndexedDB caching
+- Created session management with unique session IDs (format: `session_{timestamp}_{random}`)
+- Fixed 3 instances of alert icon text "i" and replaced with proper SVG info icons
+- Created comprehensive documentation:
+  - `docs/firebase/README.md` - Quick access guide with Firebase Console URLs
+  - `docs/firebase/ARCHITECTURE.md` - System design, data flow, security model (470 lines)
+  - `docs/firebase/API_REFERENCE.md` - Code examples, function signatures (694 lines)
+  - `docs/firebase/QUICKSTART.md` - 30-second onboarding for AI models (257 lines)
+- Firestore collection: `cleaning-sessions`
+- Document structure: sessionId, startTime, endTime, status, tasks map, progress, notes
+- Session flow: START → auto-sync → STOP → SUBMIT (to Google Sheets with duration)
+- Modified submitSession() to include session duration in Google Sheets submission
+
 ---
 
 ## In-Progress Tasks
@@ -72,13 +98,17 @@
 
 | Task | Notes |
 |------|-------|
-| *None identified* | — |
+| Debug Firebase Console data visibility | Session data not appearing in Firestore Console (likely browser extension errors) |
+| Test START/STOP button Firebase workflow | Verify session creation, auto-sync, and completion in Firestore |
+| Create dashboard.html with live progress viewer | Real-time onSnapshot listener for homeowner to watch cleaning progress |
 
 ### Medium Priority
 
 | Task | Notes |
 |------|-------|
-| Add column headers to Google Sheet | Timestamp, Progress, Completed, Incomplete, Notes |
+| Copy Firebase changes from DEV to production file | After Firebase testing is complete |
+| Test complete workflow end-to-end | START → sync → STOP → SUBMIT → verify Google Sheets + Firebase |
+| Add column headers to Google Sheet | Timestamp, Progress, Completed, Incomplete, Notes, Duration (NEW) |
 | Update naming convention guide to reflect new date placement | Date now follows Cleaning_Type instead of being at end |
 | Create additional checklists (Weekly, Monthly) | Referenced in naming guide but not yet created |
 | Consider adding date picker for scheduling future cleaning sessions | Enhancement request |
@@ -106,6 +136,10 @@
 | **Apps Script URL** | See handoff docs (long URL) |
 | **Apps Script Owner** | ryan.zimmerman@southwestresumes.com |
 | **Service Account** | sda-cleaning-checklist@srs-management-system.iam.gserviceaccount.com |
+| **Firebase Project** | sparkdata-cleaning-checklists |
+| **Firebase Console** | <https://console.firebase.google.com/project/sparkdata-cleaning-checklists> |
+| **Firestore Database** | <https://console.firebase.google.com/project/sparkdata-cleaning-checklists/firestore> |
+| **Firebase Account** | ryan.zimmerman@southwestresumes.com |
 | **PR #1** | <https://github.com/rzimmerman2022/sparkdata-home-ops/pull/1> |
 
 ---
@@ -117,8 +151,12 @@
 | `Deep_Clean_2025-10-06_Master_Bedroom_and_Kitchen_Person_1_One_Time.html` | Team Member #1 checklist |
 | `Deep_Clean_2025-10-06_Office_and_Living_Areas_Person_2_One_Time.html` | Team Member #2 checklist |
 | `Deep_Clean_2025-11-26_Full_House_Single_Cleaner_Prioritized.html` | Full house single cleaner checklist (PRODUCTION) |
-| `Deep_Clean_2025-11-26_Full_House_Single_Cleaner_Prioritized_DEV.html` | DEV version for testing |
+| `Deep_Clean_2025-11-26_Full_House_Single_Cleaner_Prioritized_DEV.html` | DEV version with Firebase integration (TESTING) |
 | `Cleaning_Checklists_File_Naming_Convention_and_Standards_Guide_2025-11-26.md` | Naming standards documentation |
+| `docs/firebase/README.md` | Firebase quick access guide with Console URLs |
+| `docs/firebase/ARCHITECTURE.md` | Firebase system design and data flow (470 lines) |
+| `docs/firebase/API_REFERENCE.md` | Firebase code examples and function signatures (694 lines) |
+| `docs/firebase/QUICKSTART.md` | 30-second Firebase onboarding for AI models (257 lines) |
 | `.credentials/` | Secure storage for API keys (git-ignored) |
 | `.gitignore` | Protects credentials from being committed |
 
@@ -131,10 +169,37 @@
 | **ses001** | `PROGRESS_2025-11-28_07-41-02_opus-4.5_ses001.md`, `docs/handoffs/HANDOFF_2025-11-28_07-41-02_opus-4.5_ses001.md`, `state/session_2025-11-28_07-41-02_opus-4.5_ses001.json` |
 | **sheets-int-001** | `PROGRESS_2025-11-28_00-57-30_opus-4.5_sheets-int-001.md`, `docs/handoffs/HANDOFF_2025-11-28_00-57-30_opus-4.5_sheets-int-001.md`, `state/session_2025-11-28_00-57-30_opus-4.5_sheets-int-001.json` |
 | **handoff-001** | `PROGRESS_2025-11-28_01-11-38_opus-4.5_handoff-001.md`, `docs/handoffs/HANDOFF_2025-11-28_01-11-38_opus-4.5_handoff-001.md`, `state/session_2025-11-28_01-11-38_opus-4.5_handoff-001.json` |
+| **firebase-001** | Firebase real-time sync integration (2025-12-09, Claude Sonnet 4.5) |
 
-**Latest Session:** handoff-001
+**Latest Session:** firebase-001
 **Branch:** `main`
-**Tag:** `handoff-2025-11-28-handoff-001`
+**Latest Commit:** `9add11c` - Merge Firebase session management
+**Key Changes:** START/STOP buttons, Firebase Firestore integration, auto-sync, session duration tracking
+
+---
+
+## Session Sign-Off
+
+**Session:** firebase-001
+**Date:** 2025-12-09
+**Model:** Claude Sonnet 4.5
+**Work Completed:**
+- ✅ Added Firebase SDK (Firestore compat v10.7.1)
+- ✅ Implemented START SESSION button (clock-in time tracking)
+- ✅ Implemented STOP SESSION button (clock-out time + duration calculation)
+- ✅ Auto-sync to Firestore every 45 seconds
+- ✅ Offline persistence with IndexedDB
+- ✅ Fixed 3 alert icon displays (text → SVG)
+- ✅ Created 4 comprehensive Firebase documentation files (1,688 lines total)
+- ✅ Merged feature branch to main and pushed to GitHub
+
+**Next Steps:**
+- Debug Firebase Console data visibility (check Network tab for API calls)
+- Create dashboard.html with real-time onSnapshot listener
+- Test complete workflow: START → STOP → SUBMIT
+- Copy Firebase changes from DEV to production file
+
+**Status:** Ready for testing and dashboard development
 
 ---
 
