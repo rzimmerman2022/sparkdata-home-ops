@@ -1,0 +1,1566 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SDA - Cleaning Checklist</title>
+    <meta name="description" content="SparkData Home Ops - Prioritized Cleaning Checklist">
+    <meta property="og:title" content="SDA - Cleaning Checklist">
+    <meta property="og:description" content="SparkData Home Ops - Prioritized Cleaning Checklist">
+    <meta property="og:type" content="website">
+    <meta name="apple-mobile-web-app-title" content="SDA Clean">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0f172a;
+            --secondary: #475569;
+            --accent: #8b5cf6;
+            --accent-light: #ede9fe;
+            --success: #10b981;
+            --success-light: #d1fae5;
+            --warning: #f59e0b;
+            --warning-light: #fef3c7;
+            --danger: #ef4444;
+            --danger-light: #fee2e2;
+            --surface: #ffffff;
+            --surface-elevated: #f8fafc;
+            --border: #e2e8f0;
+            --border-strong: #cbd5e1;
+            --text-primary: #0f172a;
+            --text-secondary: #64748b;
+            --text-muted: #94a3b8;
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --radius-xl: 24px;
+            --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -2px rgba(0,0,0,0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -4px rgba(0,0,0,0.1);
+            --shadow-xl: 0 20px 25px -5px rgba(0,0,0,0.1), 0 8px 10px -6px rgba(0,0,0,0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: var(--text-primary);
+            line-height: 1.5;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 24px 16px;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .header-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 6px 14px;
+            border-radius: 100px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 16px;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            font-weight: 800;
+            color: white;
+            margin-bottom: 8px;
+            letter-spacing: -0.5px;
+        }
+
+        .header-meta {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            color: rgba(255, 255, 255, 0.95);
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .header-meta span {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        /* Progress */
+        .progress-container {
+            background: var(--surface);
+            border-radius: var(--radius-lg);
+            padding: 20px 24px;
+            margin-bottom: 24px;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--border);
+        }
+
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .progress-label {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-secondary);
+        }
+
+        .progress-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--accent);
+        }
+
+        .progress-bar {
+            background: var(--surface-elevated);
+            height: 10px;
+            border-radius: 100px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+        }
+
+        .progress-fill {
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            height: 100%;
+            width: 0%;
+            border-radius: 100px;
+            transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Special Alert Card */
+        .alert-card {
+            background: var(--danger-light);
+            border: 2px solid var(--danger);
+            border-radius: var(--radius-lg);
+            padding: 20px;
+            margin-bottom: 24px;
+        }
+
+        .alert-card.warning {
+            background: var(--warning-light);
+            border-color: var(--warning);
+        }
+
+        .alert-card.info {
+            background: var(--accent-light);
+            border-color: var(--accent);
+        }
+
+        .alert-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 700;
+            font-size: 15px;
+            margin-bottom: 12px;
+        }
+
+        .alert-icon {
+            font-size: 20px;
+        }
+
+        .alert-content {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .alert-content ul {
+            margin-left: 20px;
+            margin-top: 8px;
+        }
+
+        .alert-content li {
+            margin-bottom: 4px;
+        }
+
+        /* Section */
+        .section {
+            background: var(--surface);
+            border-radius: var(--radius-xl);
+            padding: 0;
+            margin-bottom: 20px;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--border);
+            overflow: hidden;
+        }
+
+        .section-header {
+            padding: 20px 24px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: var(--surface-elevated);
+        }
+
+        .section-title-group {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .section-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+        }
+
+        .section-icon.priority-1 { background: linear-gradient(135deg, #ef4444, #dc2626); }
+        .section-icon.priority-2 { background: linear-gradient(135deg, #f97316, #ea580c); }
+        .section-icon.priority-3 { background: linear-gradient(135deg, #eab308, #ca8a04); }
+        .section-icon.priority-4 { background: linear-gradient(135deg, #22c55e, #16a34a); }
+        .section-icon.priority-5 { background: linear-gradient(135deg, #3b82f6, #2563eb); }
+        .section-icon.priority-6 { background: linear-gradient(135deg, #8b5cf6, #7c3aed); }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 2px;
+        }
+
+        .section-subtitle {
+            font-size: 13px;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .section-badge {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            padding: 6px 12px;
+            border-radius: 100px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .section-badge.time {
+            background: var(--surface);
+            color: var(--text-secondary);
+            border: 1px solid var(--border-strong);
+        }
+
+        .section-content {
+            padding: 16px 24px 24px;
+        }
+
+        /* Task Group */
+        .task-group {
+            margin-bottom: 20px;
+        }
+
+        .task-group:last-child {
+            margin-bottom: 0;
+        }
+
+        .task-group-title {
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-muted);
+            margin-bottom: 10px;
+            padding-left: 4px;
+        }
+
+        /* Tasks */
+        .task {
+            display: flex;
+            align-items: flex-start;
+            padding: 12px 14px;
+            margin-bottom: 6px;
+            border-radius: var(--radius-md);
+            background: var(--surface-elevated);
+            border: 1px solid transparent;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+
+        .task:hover {
+            border-color: var(--border-strong);
+            transform: translateX(2px);
+        }
+
+        .task.highlight {
+            background: var(--warning-light);
+            border-color: var(--warning);
+        }
+
+        .task.special {
+            background: var(--accent-light);
+            border-color: var(--accent);
+        }
+
+        .task input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            margin-right: 14px;
+            margin-top: 2px;
+            cursor: pointer;
+            accent-color: var(--accent);
+            flex-shrink: 0;
+        }
+
+        .task label {
+            cursor: pointer;
+            font-size: 14px;
+            color: var(--text-primary);
+            flex: 1;
+            user-select: none;
+            line-height: 1.5;
+        }
+
+        .task input[type="checkbox"]:checked + label {
+            text-decoration: line-through;
+            color: var(--text-muted);
+        }
+
+        .task-tag {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-left: 8px;
+            vertical-align: middle;
+        }
+
+        .task-tag.important {
+            background: var(--danger-light);
+            color: var(--danger);
+        }
+
+        .task-tag.new {
+            background: var(--success-light);
+            color: var(--success);
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 24px;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 13px;
+        }
+
+        /* Quick Tips */
+        .quick-tip {
+            background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+            border: 1px solid #bbf7d0;
+            border-radius: var(--radius-md);
+            padding: 12px 16px;
+            margin-top: 12px;
+            font-size: 13px;
+            color: #166534;
+        }
+
+        .quick-tip strong {
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        /* Responsive - Mobile Optimized */
+        @media (max-width: 640px) {
+            .container {
+                padding: 12px 8px;
+            }
+
+            .header {
+                margin-bottom: 20px;
+            }
+
+            .header h1 {
+                font-size: 22px;
+            }
+
+            .header-meta {
+                flex-direction: column;
+                gap: 6px;
+                font-size: 13px;
+            }
+
+            .progress-container {
+                padding: 16px;
+            }
+
+            .progress-value {
+                font-size: 20px;
+            }
+
+            .section {
+                margin-bottom: 16px;
+                border-radius: var(--radius-lg);
+            }
+
+            .section-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+                padding: 16px;
+            }
+
+            .section-icon {
+                width: 38px;
+                height: 38px;
+                font-size: 18px;
+            }
+
+            .section-title {
+                font-size: 16px;
+            }
+
+            .section-content {
+                padding: 12px;
+            }
+
+            .task-group {
+                margin-bottom: 16px;
+            }
+
+            .task-group-title {
+                font-size: 10px;
+                margin-bottom: 8px;
+            }
+
+            /* Larger touch targets for mobile */
+            .task {
+                padding: 14px 12px;
+                margin-bottom: 8px;
+                min-height: 48px;
+            }
+
+            .task input[type="checkbox"] {
+                width: 24px;
+                height: 24px;
+                margin-right: 12px;
+            }
+
+            .task label {
+                font-size: 15px;
+                line-height: 1.4;
+            }
+
+            .alert-card {
+                padding: 14px;
+                margin-bottom: 16px;
+            }
+
+            .alert-header {
+                font-size: 13px;
+            }
+
+            .alert-content {
+                font-size: 12px;
+            }
+
+            .alert-content li {
+                margin-bottom: 6px;
+            }
+
+            .footer {
+                padding: 16px;
+                font-size: 12px;
+            }
+        }
+
+        /* Extra small screens */
+        @media (max-width: 380px) {
+            .header h1 {
+                font-size: 20px;
+            }
+
+            .task label {
+                font-size: 14px;
+            }
+
+            .section-title {
+                font-size: 15px;
+            }
+        }
+
+        /* Notes & Actions Section */
+        .notes-section {
+            background: var(--surface);
+            border-radius: var(--radius-xl);
+            padding: 24px;
+            margin-bottom: 20px;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--border);
+        }
+
+        .notes-section h3 {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: var(--text-primary);
+        }
+
+        .notes-textarea {
+            width: 100%;
+            min-height: 120px;
+            padding: 14px;
+            border: 2px solid var(--border);
+            border-radius: var(--radius-md);
+            font-family: inherit;
+            font-size: 15px;
+            resize: vertical;
+            transition: border-color 0.2s;
+        }
+
+        .notes-textarea:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 12px;
+            margin-top: 16px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 14px 24px;
+            border-radius: var(--radius-md);
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            transition: all 0.2s;
+            flex: 1;
+            min-width: 140px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+            background: var(--surface-elevated);
+            color: var(--text-secondary);
+            border: 2px solid var(--border);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--border-strong);
+            background: var(--surface);
+        }
+
+        .btn-danger {
+            background: var(--danger-light);
+            color: var(--danger);
+            border: 2px solid var(--danger);
+        }
+
+        .btn-danger:hover {
+            background: var(--danger);
+            color: white;
+        }
+
+        .summary-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.6);
+            z-index: 1000;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .summary-modal.active {
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+        }
+
+        .summary-content {
+            background: white;
+            border-radius: var(--radius-xl);
+            padding: 24px;
+            max-width: 600px;
+            width: 100%;
+            margin-top: 40px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .summary-content h2 {
+            font-size: 20px;
+            margin-bottom: 16px;
+        }
+
+        .summary-content pre {
+            background: var(--surface-elevated);
+            padding: 16px;
+            border-radius: var(--radius-md);
+            font-size: 13px;
+            overflow-x: auto;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        .summary-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 16px;
+        }
+
+        @media (max-width: 640px) {
+            .action-buttons {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+            }
+        }
+
+        /* Print Styles */
+        @media print {
+            body {
+                background: white;
+            }
+
+            .container {
+                max-width: 100%;
+                padding: 0;
+            }
+
+            .section {
+                break-inside: avoid;
+                box-shadow: none;
+                border: 1px solid #ddd;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-badge">
+                <span>SparkData Home Ops</span>
+            </div>
+            <h1>Cleaning Session Checklist</h1>
+            <div class="header-meta">
+                <span>
+                    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                    Monday, December 9, 2025
+                </span>
+                <span>
+                    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg>
+                    Arrival: 1:00 PM | Duration: Full Session
+                </span>
+            </div>
+        </header>
+
+        <!-- Progress -->
+        <div class="progress-container">
+            <div class="progress-header">
+                <span class="progress-label">Overall Progress</span>
+                <span class="progress-value" id="progressPercent">0%</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressBar"></div>
+            </div>
+        </div>
+
+        <!-- Work Order Alert -->
+        <div class="alert-card warning">
+            <div class="alert-header">
+                <span class="alert-icon">⚠️</span>
+                Work Order: Follow This Sequence
+            </div>
+            <div class="alert-content">
+                <ul>
+                    <li><strong>Start with Master Bathroom</strong> - complete this first</li>
+                    <li><strong>Then Master Bedroom</strong> - including deep clean and carpet cleaning</li>
+                    <li><strong>Kitchen deep cleaning</strong> - all appliances</li>
+                    <li><strong>Kitchen organization LAST</strong> - counter items, cabinets, expired food</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Section 1: Master Bathroom -->
+        <section class="section">
+            <div class="section-header">
+                <div class="section-title-group">
+                    <div class="section-icon priority-1">1</div>
+                    <div>
+                        <h2 class="section-title">Master Bathroom</h2>
+                        <p class="section-subtitle">Start here - highest priority</p>
+                    </div>
+                </div>
+                <div class="section-badge time">
+                    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg>
+                    ~40-50 min
+                </div>
+            </div>
+            <div class="section-content">
+                <div class="task-group">
+                    <div class="task-group-title">Shower & Tub Area</div>
+                    <div class="task">
+                        <input type="checkbox" id="mba-curtain-rod" class="task-checkbox">
+                        <label for="mba-curtain-rod">Remove oxidation/rust from shower curtain rod</label>
+                    </div>
+                    <div class="task">
+                        <input type="checkbox" id="mba-showerhead" class="task-checkbox">
+                        <label for="mba-showerhead">Descale showerhead (soak in vinegar solution if needed)</label>
+                    </div>
+                    <div class="task">
+                        <input type="checkbox" id="mba-tiles" class="task-checkbox">
+                        <label for="mba-tiles">Scrub shower tiles and grout thoroughly</label>
+                    </div>
+                    <div class="task">
+                        <input type="checkbox" id="mba-tub" class="task-checkbox">
+                        <label for="mba-tub">Scrub bathtub/shower floor and walls</label>
+                    </div>
+                    <div class="task">
+                        <input type="checkbox" id="mba-door" class="task-checkbox">
+                        <label for="mba-door">Clean shower door/curtain and tracks</label>
+                    </div>
+                    <div class="task">
+                        <input type="checkbox" id="mba-drain" class="task-checkbox">
+                        <label for="mba-drain">Remove hair and clean drain thoroughly</label>
+                    </div>
+                </div>
+
+                <div class="task-group">
+                    <div class="task-group-title">Sink & Counter</div>
+                    <div class="task">
+                        <input type="checkbox" id="mba-faucet" class="task-checkbox">
+                        <label for="mba-faucet">Descale and polish sink faucet</label>
+                    </div>
+                    <div class="task">
+                        <input type="checkbox" id="mba-sink" class="task-checkbox">
+                        <label for="mba-sink">Scrub sink thoroughly - remove hard water stains</label>
+                    </div>
+                    <div class="task">
+                        <input type="checkbox" id="mba-countertop" class="task-checkbox">
+                        <label for="mba-countertop">Disinfect all countertops thoroughly</label>
+                    </div>
+                    <div class="task">
+                        <input type="checkbox" id="mba-mirror" class="task-checkbox">
+                        <label for="mba-mirror">Clean mirror thoroughly - remove water spots</label>
+                    </div>
+                </div>
+
+                <div class="task-group">
+                    <div class="task-group-title">Toilet & Final Touches</div>
+                    <div class="task">
+                        <input type="checkbox" id="mba-toilet-bowl" class="task-checkbox">
+                        <label for="mba-toilet-bowl">Deep clean toilet bowl with cleaner and brush</label>
+                    </div>
+                    <div class="task">
+                        <input type="checkbox" id="mba-toilet-ext" class="task-checkbox">
+                        <label for="mba-toilet-ext">Disinfect toilet exterior - seat, base, and behind</label>
+                    </div>
+                    <div class="task">
+                        <input type="checkbox" id="mba-exhaust" class="task-checkbox">
+                        <label for="mba-exhaust">Clean exhaust fan and light fixtures</label>
+                    </div>
+                    <div class="task">
+                        <input type="checkbox" id="mba-baseboards" class="task-checkbox">
+                        <label for="mba-baseboards">Scrub and clean baseboards thoroughly</label>
+                    </div>
+                    <div class="task">
+                        <input type="checkbox" id="mba-floor" class="task-checkbox">
+                        <label for="mba-floor">Sweep and mop floor - pay attention to corners</label>
+                    </div>
+                    <div class="task">
+                        <input type="checkbox" id="mba-trash" class="task-checkbox">
+                        <label for="mba-trash">Empty trash and disinfect trash can</label>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2: Master Bedroom -->
+        <section class="section">
+            <div class="section-header">
+                <div class="section-title-group">
+                    <div class="section-icon priority-2">2</div>
+                    <div>
+                        <h2 class="section-title">Master Bedroom</h2>
+                        <p class="section-subtitle">Deep clean + carpet cleaning</p>
+                    </div>
+                </div>
+                <div class="section-badge time">
+                    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg>
+                    ~50-60 min
+                </div>
+            </div>
+            <div class="section-content">
+                <div class="task-group">
+                    <div class="task-group-title">High Areas & Dusting</div>
+                    <div class="task">
+                        <input type="checkbox" id="mb-ceiling-fan" class="task-checkbox">
+                        <label for="mb-ceiling-fan">Dust ceiling fan blades and light fixtures</label>
+                    </div>
+                    <div class="task">
+                        <input type="checkbox" id="mb-corners" class="task-checkbox">
+                        <label for="mb-corners">Remove cobwebs from ceiling corners and walls</label>
+                    </div>
+                    <div class="task">
+                        <input type="checkbox" id="mb-vents" class="task-checkbox">
+                        <label for="mb-vents">Clean air vents and return grilles</label>
+                    </div>
+                </div>
+
+                <div class="task-group">
+                    <div class="task-group-title">Windows & Walls</div>
+                    <div class="task">
+                        <input type="checkbox" id="mb-windows" class="task-checkbox">
+                        <label for="mb-windows">Clean windows inside - glass, sills, and frames</label>
+                    </div>
+                    <div class="task">
+                        <input type="checkbox" id="mb-window-tracks" class="task-checkbox">
+                        <label for="mb-window-tracks">Clean window tracks - remove dirt and grime buildup</label>
+                    </div>
+                    <div class="task">
+                        <input type="checkbox" id="mb-blinds" class="task-checkbox">
+                        <label for="mb-blinds">Dust and wipe window blinds</label>
+                    </div>
+                </div>
+
+                <div class="task-group">
+                    <div class="task-group-title">Surfaces & Furniture</div>
+                    <div class="task">
+                        <input type="checkbox" id="mb-furniture" class="task-checkbox">
+                        <label for="mb-furniture">Dust all furniture - dresser, nightstands, shelves</label>
+                    </div>
+                    <div class="task">
+                        <input type="checkbox" id="mb-mirrors" class="task-checkbox">
+                        <label for="mb-mirrors">Clean all mirrors</label>
+                    </div>
+                    <div class="task">
+                        <input type="checkbox" id="mb-switches" class="task-checkbox">
+                        <label for="mb-switches">Disinfect light switches and outlet covers</label>
+                    </div>
+                </div>
+
+                <div class="task-group">
+                    <div class="task-group-title">Floor & Carpet</div>
+                    <div class="task">
+                        <input type="checkbox" id="mb-baseboards" class="task-checkbox">
+                        <label for="mb-baseboards">Scrub and clean all baseboards and molding thoroughly</label>
+                    </div>
+                    <div class="task">
+                        <input type="checkbox" id="mb-vacuum" class="task-checkbox">
+                        <label for="mb-vacuum">Vacuum thoroughly - under bed, in corners, closet floor</label>
+                    </div>
+                    <div class="task highlight">
+                        <input type="checkbox" id="mb-carpet-clean" class="task-checkbox">
+                        <label for="mb-carpet-clean">Carpet cleaning for master bedroom <span class="task-tag important">Required</span></label>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: Kitchen Deep Appliance Cleaning -->
+        <section class="section">
+            <div class="section-header">
+                <div class="section-title-group">
+                    <div class="section-icon priority-3">3</div>
+                    <div>
+                        <h2 class="section-title">Kitchen - Deep Appliance Cleaning</h2>
+                        <p class="section-subtitle">Major appliances first</p>
+                    </div>
+                </div>
+                <div class="section-badge time">
+                    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg>
+                    ~60-75 min
+                </div>
+            </div>
+            <div class="section-content">
+                <div class="task-group">
+                    <div class="task-group-title">Priority Appliances</div>
+                    <div class="task highlight">
+                        <input type="checkbox" id="k-brio" class="task-checkbox">
+                        <label for="k-brio">Clean Brio water dispenser exterior - wipe down all outside surfaces thoroughly <span class="task-tag important">Required</span></label>
+                    </div>
+                    <div class="task highlight">
+                        <input type="checkbox" id="k-microwave-int" class="task-checkbox">
+                        <label for="k-microwave-int">Clean microwave interior thoroughly <span class="task-tag important">Required</span></label>
+                    </div>
+                    <div class="task">
+                        <input type="checkbox" id="k-microwave-ext" class="task-checkbox">
+                        <label for="k-microwave-ext">Wipe down microwave exterior and handle</label>
+                    </div>
+                    <div class="task highlight">
+                        <input type="checkbox" id="k-dishwasher" class="task-checkbox">
+                        <label for="k-dishwasher">Clean dishwasher interior and exterior - wipe door seals, clean inside; if there's a filter, clean it <span class="task-tag important">Required</span></label>
+                    </div>
+                    <div class="task highlight">
+                        <input type="checkbox" id="k-fridge-int" class="task-checkbox">
+                        <label for="k-fridge-int">Deep clean refrigerator interior - remove shelves, wash thoroughly, scrub glass shelves <span class="task-tag important">Required</span></label>
+                    </div>
+                    <div class="task highlight">
+                        <input type="checkbox" id="k-fridge-ext" class="task-checkbox">
+                        <label for="k-fridge-ext">Wipe down refrigerator exterior and handles thoroughly <span class="task-tag important">Required</span></label>
+                    </div>
+                </div>
+
+                <div class="task-group">
+                    <div class="task-group-title">Oven & Stove</div>
+                    <div class="task highlight">
+                        <input type="checkbox" id="k-oven-int" class="task-checkbox">
+                        <label for="k-oven-int">Clean oven interior - use self-clean cycle or oven cleaner if available <span class="task-tag important">Required</span></label>
+                    </div>
+                    <div class="task highlight">
+                        <input type="checkbox" id="k-oven-ext" class="task-checkbox">
+                        <label for="k-oven-ext">Clean oven exterior - wipe down thoroughly <span class="task-tag important">Required</span></label>
+                    </div>
+                    <div class="task highlight">
+                        <input type="checkbox" id="k-stovetop" class="task-checkbox">
+                        <label for="k-stovetop">Deep clean stovetop - remove grates and burners, scrub burners/under grates, wipe down surface <span class="task-tag important">Required</span></label>
+                    </div>
+                </div>
+
+                <div class="task-group">
+                    <div class="task-group-title">Kitchen Surfaces</div>
+                    <div class="task">
+                        <input type="checkbox" id="k-countertops" class="task-checkbox">
+                        <label for="k-countertops">Disinfect all countertops thoroughly</label>
+                    </div>
+                    <div class="task">
+                        <input type="checkbox" id="k-sink" class="task-checkbox">
+                        <label for="k-sink">Scrub sink thoroughly - remove stains and buildup</label>
+                    </div>
+                    <div class="task">
+                        <input type="checkbox" id="k-faucet" class="task-checkbox">
+                        <label for="k-faucet">Descale and polish sink faucet</label>
+                    </div>
+                    <div class="task highlight">
+                        <input type="checkbox" id="k-garbage-can" class="task-checkbox">
+                        <label for="k-garbage-can">Deep clean garbage can - scrub interior and exterior, disinfect thoroughly <span class="task-tag important">Required</span></label>
+                    </div>
+                </div>
+
+                <div class="task-group">
+                    <div class="task-group-title">Table, Chairs & Floor</div>
+                    <div class="task highlight">
+                        <input type="checkbox" id="k-table" class="task-checkbox">
+                        <label for="k-table">Completely wipe down kitchen table - get it really clean <span class="task-tag important">Required</span></label>
+                    </div>
+                    <div class="task highlight">
+                        <input type="checkbox" id="k-chairs" class="task-checkbox">
+                        <label for="k-chairs">Give all kitchen chairs a good clean - legs, backs, seats, crevices <span class="task-tag important">Required</span></label>
+                    </div>
+                    <div class="task">
+                        <input type="checkbox" id="k-baseboards" class="task-checkbox">
+                        <label for="k-baseboards">Scrub and clean all baseboards thoroughly</label>
+                    </div>
+                    <div class="task">
+                        <input type="checkbox" id="k-vacuum" class="task-checkbox">
+                        <label for="k-vacuum">Vacuum kitchen floor thoroughly</label>
+                    </div>
+                    <div class="task highlight">
+                        <input type="checkbox" id="k-floor" class="task-checkbox">
+                        <label for="k-floor">Mop kitchen floor really well - especially under the table, move chairs and get all the buildup <span class="task-tag important">Required</span></label>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 4: Office / Second Bedroom -->
+        <section class="section">
+            <div class="section-header">
+                <div class="section-title-group">
+                    <div class="section-icon priority-4">4</div>
+                    <div>
+                        <h2 class="section-title">Office / Second Bedroom</h2>
+                        <p class="section-subtitle">Closet organization + carpet cleaning</p>
+                    </div>
+                </div>
+                <div class="section-badge time">
+                    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg>
+                    ~40-50 min
+                </div>
+            </div>
+            <div class="section-content">
+                <div class="task-group">
+                    <div class="task-group-title">Organization Priority</div>
+                    <div class="task highlight">
+                        <input type="checkbox" id="office-closet" class="task-checkbox">
+                        <label for="office-closet">Organize office closet - arrange items by category, remove unnecessary items, neatly stack remaining items <span class="task-tag important">Important</span></label>
+                    </div>
+                    <div class="task">
+                        <input type="checkbox" id="office-storage-cube" class="task-checkbox">
+                        <label for="office-storage-cube">Organize items on 3x3 storage cube - make it look aesthetic and less cluttered</label>
+                    </div>
+                </div>
+
+                <div class="task-group">
+                    <div class="task-group-title">High Areas</div>
+                    <div class="task">
+                        <input type="checkbox" id="office-ceiling-fan" class="task-checkbox">
+                        <label for="office-ceiling-fan">Dust ceiling fan blades and light fixtures</label>
+                    </div>
+                    <div class="task">
+                        <input type="checkbox" id="office-corners" class="task-checkbox">
+                        <label for="office-corners">Remove cobwebs from ceiling corners</label>
+                    </div>
+                    <div class="task">
+                        <input type="checkbox" id="office-vents" class="task-checkbox">
+                        <label for="office-vents">Clean air vents</label>
+                    </div>
+                </div>
+
+                <div class="task-group">
+                    <div class="task-group-title">Desk & Computer Area</div>
+                    <div class="task">
+                        <input type="checkbox" id="office-desk" class="task-checkbox">
+                        <label for="office-desk">Clean tempered glass desk surface</label>
+                    </div>
+                    <div class="task">
+                        <input type="checkbox" id="office-keyboard" class="task-checkbox">
+                        <label for="office-keyboard">Clean keyboard - dust and remove grease buildup</label>
+                    </div>
+                    <div class="task">
+                        <input type="checkbox" id="office-mouse" class="task-checkbox">
+                        <label for="office-mouse">Clean mouse</label>
+                    </div>
+                    <div class="task">
+                        <input type="checkbox" id="office-tower" class="task-checkbox">
+                        <label for="office-tower">Dust computer tower (dry cloth only, no chemicals)</label>
+                    </div>
+                    <div class="task">
+                        <input type="checkbox" id="office-chair" class="task-checkbox">
+                        <label for="office-chair">Clean office chair - dust and clean all crevices and seams</label>
+                    </div>
+                    <div class="task">
+                        <input type="checkbox" id="office-glass-mat" class="task-checkbox">
+                        <label for="office-glass-mat">Clean tempered glass chair mat (both sides)</label>
+                    </div>
+                </div>
+
+                <div class="task-group">
+                    <div class="task-group-title">Floor & Carpet</div>
+                    <div class="task">
+                        <input type="checkbox" id="office-baseboards" class="task-checkbox">
+                        <label for="office-baseboards">Wipe baseboards</label>
+                    </div>
+                    <div class="task">
+                        <input type="checkbox" id="office-vacuum" class="task-checkbox">
+                        <label for="office-vacuum">Vacuum floor, especially under computer desk</label>
+                    </div>
+                    <div class="task highlight">
+                        <input type="checkbox" id="office-carpet" class="task-checkbox">
+                        <label for="office-carpet">Carpet cleaning for office/second bedroom <span class="task-tag important">Required</span></label>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 5: Whole House Tasks -->
+        <section class="section">
+            <div class="section-header">
+                <div class="section-title-group">
+                    <div class="section-icon priority-5">5</div>
+                    <div>
+                        <h2 class="section-title">Whole House Required Tasks</h2>
+                        <p class="section-subtitle">All rooms throughout house</p>
+                    </div>
+                </div>
+                <div class="section-badge time">
+                    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg>
+                    ~30-40 min
+                </div>
+            </div>
+            <div class="section-content">
+                <div class="task-group">
+                    <div class="task-group-title">Throughout Entire House</div>
+                    <div class="task highlight">
+                        <input type="checkbox" id="whole-switches" class="task-checkbox">
+                        <label for="whole-switches">Clean and disinfect all light switches throughout entire house - remove fingerprints and oils <span class="task-tag important">Required</span></label>
+                    </div>
+                    <div class="task highlight">
+                        <input type="checkbox" id="whole-handles" class="task-checkbox">
+                        <label for="whole-handles">Clean and disinfect all door handles throughout entire house - remove fingerprints and oils <span class="task-tag important">Required</span></label>
+                    </div>
+                    <div class="task highlight">
+                        <input type="checkbox" id="whole-baseboards" class="task-checkbox">
+                        <label for="whole-baseboards">Scrub and clean baseboards throughout house - they're getting dusty and need thorough cleaning <span class="task-tag important">Required</span></label>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 6: Living Room -->
+        <section class="section">
+            <div class="section-header">
+                <div class="section-title-group">
+                    <div class="section-icon priority-6">6</div>
+                    <div>
+                        <h2 class="section-title">Living Room</h2>
+                        <p class="section-subtitle">Entertainment center priority</p>
+                    </div>
+                </div>
+                <div class="section-badge time">
+                    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg>
+                    ~30-35 min
+                </div>
+            </div>
+            <div class="section-content">
+                <div class="task-group">
+                    <div class="task-group-title">High Areas</div>
+                    <div class="task">
+                        <input type="checkbox" id="lr-ceiling-fan" class="task-checkbox">
+                        <label for="lr-ceiling-fan">Dust ceiling fan blades and light fixtures</label>
+                    </div>
+                    <div class="task">
+                        <input type="checkbox" id="lr-corners" class="task-checkbox">
+                        <label for="lr-corners">Remove cobwebs from corners</label>
+                    </div>
+                </div>
+
+                <div class="task-group">
+                    <div class="task-group-title">Entertainment Area</div>
+                    <div class="task">
+                        <input type="checkbox" id="lr-tv" class="task-checkbox">
+                        <label for="lr-tv">Clean TV screen and entertainment center surfaces</label>
+                    </div>
+                    <div class="task highlight">
+                        <input type="checkbox" id="lr-behind-tv" class="task-checkbox">
+                        <label for="lr-behind-tv">Vacuum up all the dust from behind the living room entertainment center - it's been building up <span class="task-tag important">Required</span></label>
+                    </div>
+                    <div class="task">
+                        <input type="checkbox" id="lr-lamps" class="task-checkbox">
+                        <label for="lr-lamps">Dust the two tall white lamps next to TV</label>
+                    </div>
+                    <div class="task">
+                        <input type="checkbox" id="lr-speakers" class="task-checkbox">
+                        <label for="lr-speakers">Dust the two tall speakers next to lamps</label>
+                    </div>
+                </div>
+
+                <div class="task-group">
+                    <div class="task-group-title">Furniture & Floor</div>
+                    <div class="task">
+                        <input type="checkbox" id="lr-furniture" class="task-checkbox">
+                        <label for="lr-furniture">Dust all other furniture and shelves</label>
+                    </div>
+                    <div class="task">
+                        <input type="checkbox" id="lr-couch" class="task-checkbox">
+                        <label for="lr-couch">Wipe down leather couch</label>
+                    </div>
+                    <div class="task">
+                        <input type="checkbox" id="lr-pet-area" class="task-checkbox">
+                        <label for="lr-pet-area">Clean area under Ollie's bowls placemat and toy basket</label>
+                    </div>
+                    <div class="task">
+                        <input type="checkbox" id="lr-baseboards" class="task-checkbox">
+                        <label for="lr-baseboards">Wipe baseboards</label>
+                    </div>
+                    <div class="task">
+                        <input type="checkbox" id="lr-vacuum" class="task-checkbox">
+                        <label for="lr-vacuum">Vacuum floor - under furniture, corners</label>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 7: Outdoor & Storage -->
+        <section class="section">
+            <div class="section-header">
+                <div class="section-title-group">
+                    <div class="section-icon priority-6">7</div>
+                    <div>
+                        <h2 class="section-title">Outdoor & Storage Tasks</h2>
+                        <p class="section-subtitle">Garage return + organization</p>
+                    </div>
+                </div>
+                <div class="section-badge time">
+                    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg>
+                    ~20-25 min
+                </div>
+            </div>
+            <div class="section-content">
+                <div class="task-group">
+                    <div class="task-group-title">Outdoor Tasks</div>
+                    <div class="task highlight">
+                        <input type="checkbox" id="garage-return" class="task-checkbox">
+                        <label for="garage-return">Take Christmas tree box and holiday grey bin to garage - walk straight past pool, follow sidewalk to Garage #3, place on right side <span class="task-tag important">Required</span></label>
+                    </div>
+                    <div class="task highlight">
+                        <input type="checkbox" id="outdoor-storage" class="task-checkbox">
+                        <label for="outdoor-storage">Organize outdoor storage area <span class="task-tag important">Required</span></label>
+                    </div>
+                </div>
+
+                <div class="task-group">
+                    <div class="task-group-title">Towels & Linen</div>
+                    <div class="task highlight">
+                        <input type="checkbox" id="towels-organize" class="task-checkbox">
+                        <label for="towels-organize">Organize towels back into grey tote and put it back in linen closet (they're on floor in front of washing machine) <span class="task-tag important">Required</span></label>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 8: Kitchen Organization -->
+        <section class="section">
+            <div class="section-header">
+                <div class="section-title-group">
+                    <div class="section-icon priority-6">8</div>
+                    <div>
+                        <h2 class="section-title">Kitchen Organization</h2>
+                        <p class="section-subtitle">Do this LAST - after all other tasks</p>
+                    </div>
+                </div>
+                <div class="section-badge time">
+                    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg>
+                    ~30-40 min
+                </div>
+            </div>
+            <div class="section-content">
+                <div class="alert-card warning" style="margin-bottom: 16px; padding: 14px;">
+                    <div class="alert-header" style="margin-bottom: 4px; font-size: 13px;">
+                        <span class="alert-icon">⚠️</span>
+                        Save this section for the very end
+                    </div>
+                    <div class="alert-content" style="font-size: 12px;">
+                        Complete all other cleaning tasks before starting kitchen organization. This ensures deep cleaning is done first.
+                    </div>
+                </div>
+
+                <div class="task-group">
+                    <div class="task-group-title">Counter & Cabinet Organization</div>
+                    <div class="task highlight">
+                        <input type="checkbox" id="k-counter-items" class="task-checkbox">
+                        <label for="k-counter-items">Organize and put away all household items on kitchen counter into correct cabinets and drawers <span class="task-tag important">Required</span></label>
+                    </div>
+                    <div class="task highlight">
+                        <input type="checkbox" id="k-food-cabinet" class="task-checkbox">
+                        <label for="k-food-cabinet">Organize food cabinet - arrange by category, face labels forward <span class="task-tag important">Required</span></label>
+                    </div>
+                    <div class="task highlight">
+                        <input type="checkbox" id="k-expired-food" class="task-checkbox">
+                        <label for="k-expired-food">Check expiration dates throughout kitchen - discard all expired food from cabinets and pantry <span class="task-tag important">Required</span></label>
+                    </div>
+                </div>
+
+                <div class="task-group">
+                    <div class="task-group-title">Refrigerator Organization</div>
+                    <div class="task highlight">
+                        <input type="checkbox" id="k-fridge-expired" class="task-checkbox">
+                        <label for="k-fridge-expired">Remove all expired food from refrigerator <span class="task-tag important">Required</span></label>
+                    </div>
+                    <div class="task">
+                        <input type="checkbox" id="k-fridge-organize" class="task-checkbox">
+                        <label for="k-fridge-organize">Organize refrigerator - group items by category</label>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Time-Saver Tips -->
+        <div class="alert-card info">
+            <div class="alert-header">
+                <span class="alert-icon">💡</span>
+                Time-Saving Strategy
+            </div>
+            <div class="alert-content">
+                <ul>
+                    <li><strong>Work order:</strong> Master Bathroom → Master Bedroom → Kitchen deep cleaning → Kitchen organization LAST</li>
+                    <li><strong>Dusting order:</strong> Always top-to-bottom so dust falls down, then vacuum last</li>
+                    <li><strong>Carpet cleaning:</strong> Complete for master bedroom and office/second bedroom</li>
+                    <li><strong>Whole house:</strong> All light switches, door handles, and baseboards throughout</li>
+                    <li><strong>Entertainment center:</strong> Vacuum behind it thoroughly - dust has been building up</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Notes Section -->
+        <div class="notes-section">
+            <h3>Notes & Comments</h3>
+            <textarea id="cleanerNotes" class="notes-textarea" placeholder="Add any notes here... (items that need attention, things you couldn't complete, supplies needed, etc.)"></textarea>
+
+            <div class="action-buttons">
+                <button type="button" class="btn btn-primary" onclick="submitSession()">Submit Session</button>
+                <button type="button" class="btn btn-danger" onclick="confirmReset()">Reset All</button>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>Thank you so much for your hard work today! You're keeping everything sparkling clean!</p>
+        </footer>
+    </div>
+
+    <!-- Summary Modal -->
+    <div id="summaryModal" class="summary-modal">
+        <div class="summary-content">
+            <h2>Session Summary</h2>
+            <pre id="summaryText"></pre>
+            <div class="summary-actions">
+                <button type="button" class="btn btn-primary" onclick="copySummary()">Copy to Clipboard</button>
+                <button type="button" class="btn btn-secondary" onclick="closeSummary()">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Update progress bar and percentage
+        function updateProgress() {
+            const checkboxes = document.querySelectorAll('.task-checkbox');
+            const checkedBoxes = document.querySelectorAll('.task-checkbox:checked');
+            const progress = checkboxes.length > 0 ? (checkedBoxes.length / checkboxes.length) * 100 : 0;
+
+            document.getElementById('progressBar').style.width = progress + '%';
+            document.getElementById('progressPercent').textContent = Math.round(progress) + '%';
+
+            // Save state to localStorage
+            checkboxes.forEach(checkbox => {
+                localStorage.setItem('single-cleaner-dec9-' + checkbox.id, checkbox.checked);
+            });
+        }
+
+        // Load saved state
+        function loadState() {
+            const checkboxes = document.querySelectorAll('.task-checkbox');
+            checkboxes.forEach(checkbox => {
+                const saved = localStorage.getItem('single-cleaner-dec9-' + checkbox.id);
+                if (saved === 'true') {
+                    checkbox.checked = true;
+                }
+            });
+            updateProgress();
+        }
+
+        // Add event listeners
+        document.querySelectorAll('.task-checkbox').forEach(checkbox => {
+            checkbox.addEventListener('change', updateProgress);
+        });
+
+        // Make entire task row clickable
+        document.querySelectorAll('.task').forEach(task => {
+            task.addEventListener('click', function(e) {
+                if (e.target.tagName === 'INPUT' || e.target.tagName === 'LABEL') {
+                    return;
+                }
+                const checkbox = this.querySelector('input[type="checkbox"]');
+                if (checkbox) {
+                    checkbox.checked = !checkbox.checked;
+                    updateProgress();
+                }
+            });
+        });
+
+        // Load state on page load
+        loadState();
+
+        // Load saved notes
+        const savedNotes = localStorage.getItem('single-cleaner-dec9-notes');
+        if (savedNotes) {
+            document.getElementById('cleanerNotes').value = savedNotes;
+        }
+
+        // Save notes on change
+        document.getElementById('cleanerNotes').addEventListener('input', function() {
+            localStorage.setItem('single-cleaner-dec9-notes', this.value);
+        });
+
+        // Reset all progress
+        function resetProgress() {
+            const checkboxes = document.querySelectorAll('.task-checkbox');
+            checkboxes.forEach(checkbox => {
+                checkbox.checked = false;
+                localStorage.removeItem('single-cleaner-dec9-' + checkbox.id);
+            });
+            localStorage.removeItem('single-cleaner-dec9-notes');
+            document.getElementById('cleanerNotes').value = '';
+            updateProgress();
+        }
+
+        // Confirm before reset
+        function confirmReset() {
+            if (confirm('Are you sure you want to reset all progress? This cannot be undone.')) {
+                resetProgress();
+            }
+        }
+
+        // Google Apps Script endpoint
+        const SHEET_API_URL = 'https://script.google.com/macros/s/AKfycbzqQXbXxDnOvo5MBMKAOVEFa_tOhemze0ma5C3LTM5DbwdpvUm0_SMnUymxmSPvP-4YBw/exec';
+
+        // Generate and show session summary
+        async function submitSession() {
+            const checkboxes = document.querySelectorAll('.task-checkbox');
+            const completed = [];
+            const incomplete = [];
+
+            checkboxes.forEach(checkbox => {
+                const label = document.querySelector(`label[for="${checkbox.id}"]`);
+                const taskName = label ? label.textContent.trim() : checkbox.id;
+                if (checkbox.checked) {
+                    completed.push(taskName);
+                } else {
+                    incomplete.push(taskName);
+                }
+            });
+
+            const notes = document.getElementById('cleanerNotes').value;
+            const progress = `${completed.length}/${checkboxes.length} (${Math.round(completed.length/checkboxes.length*100)}%)`;
+            const now = new Date();
+            const dateStr = now.toLocaleDateString('en-US', {
+                weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
+            });
+            const timeStr = now.toLocaleTimeString('en-US', {
+                hour: '2-digit', minute: '2-digit'
+            });
+
+            // Send to Google Sheets
+            const submitBtn = document.querySelector('.btn-primary');
+            const originalText = submitBtn.textContent;
+            submitBtn.textContent = 'Saving...';
+            submitBtn.disabled = true;
+
+            try {
+                const formData = new URLSearchParams();
+                formData.append('progress', progress);
+                formData.append('completed', completed.join(', '));
+                formData.append('incomplete', incomplete.join(', '));
+                formData.append('notes', notes);
+
+                const response = await fetch(SHEET_API_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    body: formData
+                });
+
+                const responseText = await response.text();
+                let responseJson = null;
+                try {
+                    responseJson = JSON.parse(responseText);
+                } catch (err) {
+                    // Non-JSON response is fine; we'll still rely on status
+                }
+
+                if (!response.ok) {
+                    throw new Error(`Sheet API error: ${response.status} ${responseText}`);
+                }
+
+                if (responseJson && responseJson.status && responseJson.status !== 'success') {
+                    throw new Error(`Sheet API error: ${responseJson.message || 'Unknown error'}`);
+                }
+
+                submitBtn.textContent = 'Saved!';
+                setTimeout(() => {
+                    submitBtn.textContent = originalText;
+                    submitBtn.disabled = false;
+                }, 2000);
+            } catch (error) {
+                console.error('Error saving to sheet:', error);
+                submitBtn.textContent = 'Error - Try Again';
+                submitBtn.disabled = false;
+                alert('Could not save to the Google Sheet (check the Apps Script deployment/URL). The summary is still available below.');
+            }
+
+            // Build summary for display
+            let summary = `CLEANING SESSION SUMMARY\n`;
+            summary += `========================\n`;
+            summary += `Date: ${dateStr}\n`;
+            summary += `Time: ${timeStr}\n`;
+            summary += `Progress: ${progress}\n\n`;
+
+            if (incomplete.length > 0 && incomplete.length <= 10) {
+                summary += `INCOMPLETE TASKS (${incomplete.length}):\n`;
+                incomplete.forEach(task => {
+                    summary += `  - ${task}\n`;
+                });
+                summary += `\n`;
+            } else if (incomplete.length > 10) {
+                summary += `INCOMPLETE: ${incomplete.length} tasks remaining\n\n`;
+            }
+
+            if (completed.length > 0 && completed.length <= 20) {
+                summary += `COMPLETED TASKS (${completed.length}):\n`;
+                completed.forEach(task => {
+                    summary += `  - ${task}\n`;
+                });
+                summary += `\n`;
+            } else if (completed.length > 20) {
+                summary += `COMPLETED: ${completed.length} tasks done!\n\n`;
+            }
+
+            if (notes.trim()) {
+                summary += `NOTES:\n${notes}\n`;
+            }
+
+            summary += `\n--- SparkData Home Ops ---`;
+
+            document.getElementById('summaryText').textContent = summary;
+            document.getElementById('summaryModal').classList.add('active');
+        }
+
+        // Copy summary to clipboard
+        function copySummary() {
+            const summary = document.getElementById('summaryText').textContent;
+            navigator.clipboard.writeText(summary).then(() => {
+                alert('Summary copied to clipboard! You can paste it into a text or email.');
+            }).catch(() => {
+                // Fallback for older browsers
+                const textarea = document.createElement('textarea');
+                textarea.value = summary;
+                document.body.appendChild(textarea);
+                textarea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textarea);
+                alert('Summary copied to clipboard!');
+            });
+        }
+
+        // Close summary modal
+        function closeSummary() {
+            document.getElementById('summaryModal').classList.remove('active');
+        }
+
+        // Close modal on background click
+        document.getElementById('summaryModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeSummary();
+            }
+        });
+    </script>
+</body>
+</html>
