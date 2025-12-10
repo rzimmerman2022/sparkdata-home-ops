@@ -598,7 +598,13 @@
         // Load checklist structure dynamically
         async function loadChecklistStructure() {
             try {
+                // Try to fetch the checklist HTML
                 const response = await fetch(checklistUrl);
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
                 const html = await response.text();
                 const parser = new DOMParser();
                 const doc = parser.parseFromString(html, 'text/html');
@@ -630,10 +636,27 @@
                 console.log('Loaded checklist structure:', Object.keys(sections).length, 'sections,',
                     Object.values(sections).reduce((sum, arr) => sum + arr.length, 0), 'total tasks');
 
+                if (Object.keys(sections).length === 0) {
+                    throw new Error('No sections found in checklist');
+                }
+
             } catch (error) {
                 console.error('Error loading checklist structure:', error);
-                // Fallback to error message
-                showError('Configuration Error', 'Could not load checklist structure. Please refresh the page.');
+                console.error('Error details:', error.message);
+
+                // Fallback: use hardcoded structure as backup
+                console.warn('Falling back to hardcoded section structure');
+                sections = {
+                    'Master Bathroom': ['mba-curtain-rod', 'mba-showerhead', 'mba-tiles', 'mba-tub', 'mba-door', 'mba-drain', 'mba-faucet', 'mba-sink', 'mba-countertop', 'mba-mirror', 'mba-toilet-bowl', 'mba-toilet-ext', 'mba-exhaust', 'mba-baseboards', 'mba-floor', 'mba-trash'],
+                    'Master Bedroom': ['mb-ceiling-fan', 'mb-corners', 'mb-vents', 'mb-windows', 'mb-window-tracks', 'mb-blinds', 'mb-furniture', 'mb-mirrors', 'mb-switches', 'mb-cable-mgmt', 'mb-baseboards', 'mb-vacuum', 'mb-carpet-clean'],
+                    'Kitchen - Deep Appliances': ['k-brio', 'k-microwave-int', 'k-microwave-ext', 'k-dishwasher', 'k-fridge-int', 'k-fridge-ext', 'k-oven-int', 'k-oven-ext', 'k-stovetop', 'k-countertops', 'k-sink', 'k-faucet', 'k-garbage-can', 'k-table', 'k-chairs', 'k-baseboards', 'k-vacuum', 'k-floor'],
+                    'Kitchen Organization': ['k-counter-items', 'k-food-cabinet', 'k-expired-food', 'k-fridge-expired', 'k-fridge-organize', 'guest-bath-cabinets'],
+                    'Office': ['office-closet', 'office-storage-cube', 'office-ceiling-fan', 'office-corners', 'office-vents', 'office-desk', 'office-keyboard', 'office-mouse', 'office-tower', 'office-chair', 'office-glass-mat', 'office-baseboards', 'office-vacuum', 'office-carpet', 'office-cables'],
+                    'Living Room': ['lr-ceiling-fan', 'lr-corners', 'lr-tv', 'lr-behind-tv', 'lr-lamps', 'lr-speakers', 'lr-furniture', 'lr-couch', 'lr-pet-area', 'lr-baseboards', 'lr-vacuum'],
+                    'Whole House': ['whole-switches', 'whole-handles', 'whole-baseboards'],
+                    'Outdoor & Storage': ['garage-return', 'outdoor-storage', 'towels-organize']
+                };
+                console.log('Using fallback structure:', Object.keys(sections).length, 'sections');
             }
         }
 
