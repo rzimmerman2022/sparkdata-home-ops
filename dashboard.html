@@ -592,29 +592,71 @@
         let sessionStartTime = null;
         let timerInterval = null;
         let currentSessionId = null;
+        let sections = {}; // Will be populated dynamically from checklist HTML
+        let checklistUrl = 'Deep_Clean_2025-12-10_Firestore_Sync.html'; // Default checklist
 
-        // Section metadata
-        const sections = {
-            'Master Bathroom': ['mb-shower', 'mb-sink', 'mb-countertop', 'mb-mirror', 'mb-toilet', 'mb-exhaust', 'mb-floor', 'mb-trash'],
-            'Master Bedroom': ['mbr-ceiling-fan', 'mbr-corners', 'mbr-vents', 'mbr-furniture', 'mbr-mirrors', 'mbr-switches', 'mbr-fold', 'mbr-putaway', 'mbr-washer-ext', 'mbr-washer-drum', 'mbr-washer-tray', 'mbr-bed', 'mbr-baseboards', 'mbr-vacuum'],
-            'Guest Bathroom': ['gb-facial', 'gb-shower', 'gb-sink', 'gb-countertop', 'gb-mirror', 'gb-toilet', 'gb-floor', 'hallway-mirror'],
-            'Office': ['of-closet', 'of-cube', 'of-desk-glass', 'of-keyboard', 'of-mouse', 'of-tower', 'of-chair', 'of-glass-mat', 'of-ceiling-fan', 'of-furniture', 'of-mirrors', 'of-baseboards', 'of-vacuum'],
-            'Living Room': ['lr-ceiling-fan', 'lr-corners', 'lr-tv-console', 'lr-tv-behind', 'lr-lamps', 'lr-speakers', 'lr-tv', 'lr-ollie', 'lr-furniture', 'lr-decor', 'lr-couch', 'lr-baseboards', 'lr-vacuum'],
-            'Dining Room': ['dr-table', 'dr-placemats-dry', 'dr-chairs', 'dr-furniture', 'dr-baseboards', 'dr-vacuum', 'dr-mop'],
-            'Kitchen': ['k-counters', 'k-sink', 'k-stovetop', 'k-microwave', 'k-fridge-ext', 'k-handles', 'k-cabinets', 'k-baseboards', 'k-vacuum', 'k-mop', 'k-trash']
-        };
+        // Load checklist structure dynamically
+        async function loadChecklistStructure() {
+            try {
+                const response = await fetch(checklistUrl);
+                const html = await response.text();
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
 
-        // Start dashboard - auto-find session if not provided in URL
-        if (sessionIdFromUrl) {
-            // Session ID provided in URL - use it directly
-            currentSessionId = sessionIdFromUrl;
-            console.log('Using session from URL:', currentSessionId);
-            startDashboard(currentSessionId);
-        } else {
-            // No session ID - auto-find most recent active session
-            console.log('No session ID in URL - searching for most recent active session...');
-            findAndStartDashboard();
+                // Find all sections
+                const sectionElements = doc.querySelectorAll('section.section');
+                sections = {};
+
+                sectionElements.forEach(section => {
+                    const titleEl = section.querySelector('.section-title');
+                    if (!titleEl) return;
+
+                    const sectionName = titleEl.textContent.trim();
+                    const taskIds = [];
+
+                    // Find all checkboxes in this section
+                    const checkboxes = section.querySelectorAll('.task-checkbox');
+                    checkboxes.forEach(cb => {
+                        if (cb.id) {
+                            taskIds.push(cb.id);
+                        }
+                    });
+
+                    if (taskIds.length > 0) {
+                        sections[sectionName] = taskIds;
+                    }
+                });
+
+                console.log('Loaded checklist structure:', Object.keys(sections).length, 'sections,',
+                    Object.values(sections).reduce((sum, arr) => sum + arr.length, 0), 'total tasks');
+
+            } catch (error) {
+                console.error('Error loading checklist structure:', error);
+                // Fallback to error message
+                showError('Configuration Error', 'Could not load checklist structure. Please refresh the page.');
+            }
         }
+
+        // Initialize dashboard - load checklist structure then start
+        async function initializeDashboard() {
+            // Load checklist structure first
+            await loadChecklistStructure();
+
+            // Then start dashboard
+            if (sessionIdFromUrl) {
+                // Session ID provided in URL - use it directly
+                currentSessionId = sessionIdFromUrl;
+                console.log('Using session from URL:', currentSessionId);
+                startDashboard(currentSessionId);
+            } else {
+                // No session ID - auto-find most recent active session
+                console.log('No session ID in URL - searching for most recent active session...');
+                findAndStartDashboard();
+            }
+        }
+
+        // Start initialization
+        initializeDashboard();
 
         // Auto-find most recent active session
         async function findAndStartDashboard() {
@@ -640,30 +682,55 @@
             }
         }
 
-        function startDashboard(sessionId) {
-            // Set up real-time listener
-            unsubscribe = db.collection('cleaning-sessions').doc(sessionId)
-                .onSnapshot(doc => {
-                    if (!doc.exists) {
-                        showError('Session Not Found', `Could not find session: ${sessionId}`);
-                        return;
-                    }
+        async function startDashboard(sessionId) {
+            try {
+                // Set up listener for session metadata
+                const sessionUnsubscribe = db.collection('cleaning-sessions').doc(sessionId)
+                    .onSnapshot(async doc => {
+                        if (!doc.exists) {
+                            showError('Session Not Found', `Could not find session: ${sessionId}`);
+                            return;
+                        }
 
-                    const data = doc.data();
-                    updateDashboard(data);
+                        const sessionData = doc.data();
 
-                    // Show dashboard, hide loading
-                    document.getElementById('loadingState').style.display = 'none';
-                    document.getElementById('dashboardContent').style.display = 'block';
-                }, error => {
-                    console.error('Listener error:', error);
-                    showError('Connection Error', 'Failed to connect to Firebase. Please check your internet connection.');
-                });
+                        // Set up listener for task progress
+                        const progressUnsubscribe = db.collection('sessions/dec10-2025/progress')
+                            .onSnapshot(snapshot => {
+                                const taskData = {};
+                                snapshot.forEach(doc => {
+                                    taskData[doc.id] = doc.data();
+                                });
+
+                                updateDashboard(sessionData, taskData);
+
+                                // Show dashboard, hide loading
+                                document.getElementById('loadingState').style.display = 'none';
+                                document.getElementById('dashboardContent').style.display = 'block';
+                            });
+
+                        // Store unsubscribe functions
+                        if (unsubscribe) {
+                            unsubscribe();
+                        }
+                        unsubscribe = () => {
+                            sessionUnsubscribe();
+                            progressUnsubscribe();
+                        };
+                    }, error => {
+                        console.error('Listener error:', error);
+                        showError('Connection Error', 'Failed to connect to Firebase. Please check your internet connection.');
+                    });
+
+            } catch (error) {
+                console.error('Error starting dashboard:', error);
+                showError('Connection Error', 'Failed to initialize dashboard. Please refresh the page.');
+            }
         }
 
-        function updateDashboard(data) {
+        function updateDashboard(sessionData, taskData) {
             // Update status
-            const isActive = data.status === 'active';
+            const isActive = sessionData.status === 'active';
             const statusIndicator = document.getElementById('statusIndicator');
             const statusBadge = document.getElementById('statusBadge');
 
@@ -672,8 +739,8 @@
             statusBadge.textContent = isActive ? 'In Progress' : 'Completed';
 
             // Update start time
-            if (data.startTime) {
-                sessionStartTime = data.startTime.toDate();
+            if (sessionData.startTime) {
+                sessionStartTime = sessionData.startTime.toDate();
                 const timeStr = sessionStartTime.toLocaleTimeString('en-US', {
                     hour: '2-digit',
                     minute: '2-digit'
@@ -690,19 +757,25 @@
                 }
             }
 
+            // Calculate progress from task data
+            const allTaskIds = Object.values(sections).flat();
+            const completedCount = allTaskIds.filter(id => taskData[id]?.completed).length;
+            const totalCount = allTaskIds.length;
+            const progress = totalCount > 0 ? Math.round((completedCount / totalCount) * 100) : 0;
+
             // Update progress
-            document.getElementById('progressBar').style.width = data.progress + '%';
-            document.getElementById('progressPercent').textContent = data.progress + '%';
+            document.getElementById('progressBar').style.width = progress + '%';
+            document.getElementById('progressPercent').textContent = progress + '%';
             document.getElementById('progressText').textContent =
-                `${data.completedCount} of ${data.totalCount} tasks completed`;
+                `${completedCount} of ${totalCount} tasks completed`;
 
             // Update sections
-            updateSections(data.tasks);
+            updateSections(taskData);
 
-            // Update notes
+            // Update notes (not in current implementation, but keeping for future)
             const notesContent = document.getElementById('notesContent');
-            if (data.notes && data.notes.trim()) {
-                notesContent.textContent = data.notes;
+            if (sessionData.notes && sessionData.notes.trim()) {
+                notesContent.textContent = sessionData.notes;
                 notesContent.classList.remove('notes-empty');
             } else {
                 notesContent.innerHTML = '<span class="notes-empty">No notes yet</span>';
@@ -742,7 +815,7 @@
             document.getElementById('sessionDuration').textContent = durationText;
         }
 
-        function updateSections(tasks) {
+        function updateSections(taskData) {
             const grid = document.getElementById('sectionsGrid');
             grid.innerHTML = '';
 
@@ -751,7 +824,7 @@
                 let completedCount = 0;
 
                 taskIds.forEach(id => {
-                    if (tasks[id] && tasks[id].checked) {
+                    if (taskData[id]?.completed) {
                         completedCount++;
                     }
                 });
@@ -759,7 +832,7 @@
                 const sectionCard = document.createElement('div');
                 sectionCard.className = 'section-card';
 
-                const progressPercent = Math.round((completedCount / taskIds.length) * 100);
+                const progressPercent = taskIds.length > 0 ? Math.round((completedCount / taskIds.length) * 100) : 0;
 
                 sectionCard.innerHTML = `
                     <div class="section-header">
