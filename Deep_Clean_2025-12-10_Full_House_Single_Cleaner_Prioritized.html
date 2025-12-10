@@ -266,6 +266,8 @@
         .section-icon.priority-4 { background: linear-gradient(135deg, #22c55e, #16a34a); }
         .section-icon.priority-5 { background: linear-gradient(135deg, #3b82f6, #2563eb); }
         .section-icon.priority-6 { background: linear-gradient(135deg, #8b5cf6, #7c3aed); }
+        .section-icon.priority-7 { background: linear-gradient(135deg, #ec4899, #db2777); }
+        .section-icon.priority-8 { background: linear-gradient(135deg, #06b6d4, #0891b2); }
 
         .section-title {
             font-size: 18px;
@@ -912,506 +914,26 @@
             </div>
             <div class="alert-content">
                 <ul>
-                    <li><strong>Section 1: Kitchen Deep Appliances</strong> - deep clean all appliances (Brio, microwave, fridge, dishwasher, oven, stove, garbage can)</li>
-                    <li><strong>Section 2: Office/Second Bedroom</strong> - closet organization priority, then carpet cleaning</li>
-                    <li><strong>Section 3: Living Room</strong> - entertainment center dusting, vacuum behind TV</li>
-                    <li><strong>Section 4: Whole House Tasks</strong> - all light switches, door handles, baseboards throughout house</li>
-                    <li><strong>Section 5: Outdoor & Storage</strong> - garage return, outdoor storage, towel organization</li>
-                    <li><strong>Section 6: Kitchen Organization</strong> - counter items, food cabinet, expired food</li>
-                    <li><strong>Section 7: Master Bedroom</strong> - deep clean and carpet cleaning</li>
-                    <li><strong>Section 8: Master Bathroom</strong> - complete deep clean</li>
+                    <li><strong>Section 1: Master Bathroom</strong> - complete deep clean</li>
+                    <li><strong>Section 2: Master Bedroom</strong> - deep clean and carpet cleaning</li>
+                    <li><strong>Section 3: Kitchen Deep Appliances</strong> - deep clean all appliances (Brio, microwave, fridge, dishwasher, oven, stove, garbage can)</li>
+                    <li><strong>Section 4: Kitchen Organization</strong> - counter items, food cabinet, expired food</li>
+                    <li><strong>Section 5: Office/Second Bedroom</strong> - closet organization priority, then carpet cleaning</li>
+                    <li><strong>Section 6: Living Room</strong> - entertainment center dusting, vacuum behind TV</li>
+                    <li><strong>Section 7: Whole House Tasks</strong> - all light switches, door handles, baseboards throughout house</li>
+                    <li><strong>Section 8: Outdoor & Storage</strong> - garage return, outdoor storage, towel organization</li>
                 </ul>
             </div>
         </div>
 
-        <!-- Section 1: Kitchen Deep Appliance Cleaning -->
+        <!-- Section 1: Master Bathroom -->
         <section class="section">
             <div class="section-header">
                 <div class="section-title-group">
                     <div class="section-icon priority-1">1</div>
                     <div>
-                        <h2 class="section-title">Kitchen - Deep Appliance Cleaning</h2>
-                        <p class="section-subtitle">Start here - quiet area away from bedrooms</p>
-                    </div>
-                </div>
-                <div class="section-badge time">
-                    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg>
-                    ~60-75 min
-                </div>
-            </div>
-            <div class="section-content">
-                <div class="task-group">
-                    <div class="task-group-title">Priority Appliances</div>
-                    <div class="task highlight">
-                        <input type="checkbox" id="k-brio" class="task-checkbox">
-                        <label for="k-brio">Clean Brio water dispenser exterior - wipe down all outside surfaces thoroughly <span class="task-tag important">Required</span></label>
-                    </div>
-                    <div class="task highlight">
-                        <input type="checkbox" id="k-microwave-int" class="task-checkbox">
-                        <label for="k-microwave-int">Clean microwave interior thoroughly <span class="task-tag important">Required</span></label>
-                    </div>
-                    <div class="task">
-                        <input type="checkbox" id="k-microwave-ext" class="task-checkbox">
-                        <label for="k-microwave-ext">Wipe down microwave exterior and handle</label>
-                    </div>
-                    <div class="task highlight">
-                        <input type="checkbox" id="k-dishwasher" class="task-checkbox">
-                        <label for="k-dishwasher">Clean dishwasher interior and exterior - wipe door seals, clean inside; if there's a filter, clean it <span class="task-tag important">Required</span></label>
-                    </div>
-                    <div class="task highlight">
-                        <input type="checkbox" id="k-fridge-int" class="task-checkbox">
-                        <label for="k-fridge-int">Deep clean refrigerator interior - remove shelves, wash thoroughly, scrub glass shelves <span class="task-tag important">Required</span></label>
-                    </div>
-                    <div class="task highlight">
-                        <input type="checkbox" id="k-fridge-ext" class="task-checkbox">
-                        <label for="k-fridge-ext">Wipe down refrigerator exterior and handles thoroughly <span class="task-tag important">Required</span></label>
-                    </div>
-                </div>
-
-                <div class="task-group">
-                    <div class="task-group-title">Oven & Stove</div>
-                    <div class="task highlight">
-                        <input type="checkbox" id="k-oven-int" class="task-checkbox">
-                        <label for="k-oven-int">Clean oven interior - use self-clean cycle or oven cleaner if available <span class="task-tag important">Required</span></label>
-                    </div>
-                    <div class="task highlight">
-                        <input type="checkbox" id="k-oven-ext" class="task-checkbox">
-                        <label for="k-oven-ext">Clean oven exterior - wipe down thoroughly <span class="task-tag important">Required</span></label>
-                    </div>
-                    <div class="task highlight">
-                        <input type="checkbox" id="k-stovetop" class="task-checkbox">
-                        <label for="k-stovetop">Deep clean stovetop - remove grates and burners, scrub burners/under grates, wipe down surface <span class="task-tag important">Required</span></label>
-                    </div>
-                </div>
-
-                <div class="task-group">
-                    <div class="task-group-title">Kitchen Surfaces</div>
-                    <div class="task">
-                        <input type="checkbox" id="k-countertops" class="task-checkbox">
-                        <label for="k-countertops">Disinfect all countertops thoroughly</label>
-                    </div>
-                    <div class="task">
-                        <input type="checkbox" id="k-sink" class="task-checkbox">
-                        <label for="k-sink">Scrub sink thoroughly - remove stains and buildup</label>
-                    </div>
-                    <div class="task">
-                        <input type="checkbox" id="k-faucet" class="task-checkbox">
-                        <label for="k-faucet">Descale and polish sink faucet</label>
-                    </div>
-                    <div class="task highlight">
-                        <input type="checkbox" id="k-garbage-can" class="task-checkbox">
-                        <label for="k-garbage-can">Deep clean garbage can - scrub interior and exterior, disinfect thoroughly <span class="task-tag important">Required</span></label>
-                    </div>
-                </div>
-
-                <div class="task-group">
-                    <div class="task-group-title">Table, Chairs & Floor</div>
-                    <div class="task highlight">
-                        <input type="checkbox" id="k-table" class="task-checkbox">
-                        <label for="k-table">Completely wipe down kitchen table - get it really clean <span class="task-tag important">Required</span></label>
-                    </div>
-                    <div class="task highlight">
-                        <input type="checkbox" id="k-chairs" class="task-checkbox">
-                        <label for="k-chairs">Give all kitchen chairs a good clean - legs, backs, seats, crevices <span class="task-tag important">Required</span></label>
-                    </div>
-                    <div class="task">
-                        <input type="checkbox" id="k-baseboards" class="task-checkbox">
-                        <label for="k-baseboards">Scrub and clean all baseboards thoroughly</label>
-                    </div>
-                    <div class="task">
-                        <input type="checkbox" id="k-vacuum" class="task-checkbox">
-                        <label for="k-vacuum">Vacuum kitchen floor thoroughly</label>
-                    </div>
-                    <div class="task highlight">
-                        <input type="checkbox" id="k-floor" class="task-checkbox">
-                        <label for="k-floor">Mop kitchen floor really well - especially under the table, move chairs and get all the buildup <span class="task-tag important">Required</span></label>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Section 2: Office / Second Bedroom -->
-        <section class="section">
-            <div class="section-header">
-                <div class="section-title-group">
-                    <div class="section-icon priority-2">2</div>
-                    <div>
-                        <h2 class="section-title">Office / Second Bedroom</h2>
-                        <p class="section-subtitle">Closet organization + carpet cleaning</p>
-                    </div>
-                </div>
-                <div class="section-badge time">
-                    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg>
-                    ~40-50 min
-                </div>
-            </div>
-            <div class="section-content">
-                <div class="task-group">
-                    <div class="task-group-title">Organization Priority</div>
-                    <div class="task highlight">
-                        <input type="checkbox" id="office-closet" class="task-checkbox">
-                        <label for="office-closet">Organize office closet - arrange items by category, remove unnecessary items, neatly stack remaining items <span class="task-tag important">Important</span></label>
-                    </div>
-                    <div class="task">
-                        <input type="checkbox" id="office-storage-cube" class="task-checkbox">
-                        <label for="office-storage-cube">Organize items on 3x3 storage cube - make it look aesthetic and less cluttered</label>
-                    </div>
-                </div>
-
-                <div class="task-group">
-                    <div class="task-group-title">High Areas</div>
-                    <div class="task">
-                        <input type="checkbox" id="office-ceiling-fan" class="task-checkbox">
-                        <label for="office-ceiling-fan">Dust ceiling fan blades and light fixtures</label>
-                    </div>
-                    <div class="task">
-                        <input type="checkbox" id="office-corners" class="task-checkbox">
-                        <label for="office-corners">Remove cobwebs from ceiling corners</label>
-                    </div>
-                    <div class="task">
-                        <input type="checkbox" id="office-vents" class="task-checkbox">
-                        <label for="office-vents">Clean air vents</label>
-                    </div>
-                </div>
-
-                <div class="task-group">
-                    <div class="task-group-title">Desk & Computer Area</div>
-                    <div class="task">
-                        <input type="checkbox" id="office-desk" class="task-checkbox">
-                        <label for="office-desk">Clean tempered glass desk surface</label>
-                    </div>
-                    <div class="task">
-                        <input type="checkbox" id="office-keyboard" class="task-checkbox">
-                        <label for="office-keyboard">Clean keyboard - dust and remove grease buildup</label>
-                    </div>
-                    <div class="task">
-                        <input type="checkbox" id="office-mouse" class="task-checkbox">
-                        <label for="office-mouse">Clean mouse</label>
-                    </div>
-                    <div class="task">
-                        <input type="checkbox" id="office-tower" class="task-checkbox">
-                        <label for="office-tower">Dust computer tower (dry cloth only, no chemicals)</label>
-                    </div>
-                    <div class="task">
-                        <input type="checkbox" id="office-chair" class="task-checkbox">
-                        <label for="office-chair">Clean office chair - dust and clean all crevices and seams</label>
-                    </div>
-                    <div class="task">
-                        <input type="checkbox" id="office-glass-mat" class="task-checkbox">
-                        <label for="office-glass-mat">Clean tempered glass chair mat (both sides)</label>
-                    </div>
-                </div>
-
-                <div class="task-group">
-                    <div class="task-group-title">Floor & Carpet</div>
-                    <div class="task">
-                        <input type="checkbox" id="office-baseboards" class="task-checkbox">
-                        <label for="office-baseboards">Wipe baseboards</label>
-                    </div>
-                    <div class="task">
-                        <input type="checkbox" id="office-vacuum" class="task-checkbox">
-                        <label for="office-vacuum">Vacuum floor, especially under computer desk</label>
-                    </div>
-                    <div class="task highlight">
-                        <input type="checkbox" id="office-carpet" class="task-checkbox">
-                        <label for="office-carpet">Carpet cleaning for office/second bedroom <span class="task-tag important">Required</span></label>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Section 3: Living Room -->
-        <section class="section">
-            <div class="section-header">
-                <div class="section-title-group">
-                    <div class="section-icon priority-3">3</div>
-                    <div>
-                        <h2 class="section-title">Living Room</h2>
-                        <p class="section-subtitle">Entertainment center priority</p>
-                    </div>
-                </div>
-                <div class="section-badge time">
-                    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg>
-                    ~30-35 min
-                </div>
-            </div>
-            <div class="section-content">
-                <div class="task-group">
-                    <div class="task-group-title">High Areas</div>
-                    <div class="task">
-                        <input type="checkbox" id="lr-ceiling-fan" class="task-checkbox">
-                        <label for="lr-ceiling-fan">Dust ceiling fan blades and light fixtures</label>
-                    </div>
-                    <div class="task">
-                        <input type="checkbox" id="lr-corners" class="task-checkbox">
-                        <label for="lr-corners">Remove cobwebs from corners</label>
-                    </div>
-                </div>
-
-                <div class="task-group">
-                    <div class="task-group-title">Entertainment Area</div>
-                    <div class="task">
-                        <input type="checkbox" id="lr-tv" class="task-checkbox">
-                        <label for="lr-tv">Clean TV screen and entertainment center surfaces</label>
-                    </div>
-                    <div class="task highlight">
-                        <input type="checkbox" id="lr-behind-tv" class="task-checkbox">
-                        <label for="lr-behind-tv">Vacuum up all the dust from behind the living room entertainment center - it's been building up <span class="task-tag important">Required</span></label>
-                    </div>
-                    <div class="task">
-                        <input type="checkbox" id="lr-lamps" class="task-checkbox">
-                        <label for="lr-lamps">Dust the two tall white lamps next to TV</label>
-                    </div>
-                    <div class="task">
-                        <input type="checkbox" id="lr-speakers" class="task-checkbox">
-                        <label for="lr-speakers">Dust the two tall speakers next to lamps</label>
-                    </div>
-                </div>
-
-                <div class="task-group">
-                    <div class="task-group-title">Furniture & Floor</div>
-                    <div class="task">
-                        <input type="checkbox" id="lr-furniture" class="task-checkbox">
-                        <label for="lr-furniture">Dust all other furniture and shelves</label>
-                    </div>
-                    <div class="task">
-                        <input type="checkbox" id="lr-couch" class="task-checkbox">
-                        <label for="lr-couch">Wipe down leather couch</label>
-                    </div>
-                    <div class="task">
-                        <input type="checkbox" id="lr-pet-area" class="task-checkbox">
-                        <label for="lr-pet-area">Clean area under Ollie's bowls placemat and toy basket</label>
-                    </div>
-                    <div class="task">
-                        <input type="checkbox" id="lr-baseboards" class="task-checkbox">
-                        <label for="lr-baseboards">Wipe baseboards</label>
-                    </div>
-                    <div class="task">
-                        <input type="checkbox" id="lr-vacuum" class="task-checkbox">
-                        <label for="lr-vacuum">Vacuum floor - under furniture, corners</label>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Section 4: Whole House Tasks -->
-        <section class="section">
-            <div class="section-header">
-                <div class="section-title-group">
-                    <div class="section-icon priority-4">4</div>
-                    <div>
-                        <h2 class="section-title">Whole House Required Tasks</h2>
-                        <p class="section-subtitle">All rooms throughout house</p>
-                    </div>
-                </div>
-                <div class="section-badge time">
-                    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg>
-                    ~30-40 min
-                </div>
-            </div>
-            <div class="section-content">
-                <div class="task-group">
-                    <div class="task-group-title">Throughout Entire House</div>
-                    <div class="task highlight">
-                        <input type="checkbox" id="whole-switches" class="task-checkbox">
-                        <label for="whole-switches">Clean and disinfect all light switches throughout entire house - remove fingerprints and oils <span class="task-tag important">Required</span></label>
-                    </div>
-                    <div class="task highlight">
-                        <input type="checkbox" id="whole-handles" class="task-checkbox">
-                        <label for="whole-handles">Clean and disinfect all door handles throughout entire house - remove fingerprints and oils <span class="task-tag important">Required</span></label>
-                    </div>
-                    <div class="task highlight">
-                        <input type="checkbox" id="whole-baseboards" class="task-checkbox">
-                        <label for="whole-baseboards">Scrub and clean baseboards throughout house - they're getting dusty and need thorough cleaning <span class="task-tag important">Required</span></label>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Section 5: Outdoor & Storage -->
-        <section class="section">
-            <div class="section-header">
-                <div class="section-title-group">
-                    <div class="section-icon priority-5">5</div>
-                    <div>
-                        <h2 class="section-title">Outdoor & Storage Tasks</h2>
-                        <p class="section-subtitle">Garage return + organization</p>
-                    </div>
-                </div>
-                <div class="section-badge time">
-                    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg>
-                    ~20-25 min
-                </div>
-            </div>
-            <div class="section-content">
-                <div class="task-group">
-                    <div class="task-group-title">Outdoor Tasks</div>
-                    <div class="task highlight">
-                        <input type="checkbox" id="garage-return" class="task-checkbox">
-                        <label for="garage-return">Take Christmas tree box and holiday grey bin to garage - walk straight past pool, follow sidewalk to Garage #3, place on right side <span class="task-tag important">Required</span></label>
-                    </div>
-                    <div class="task highlight">
-                        <input type="checkbox" id="outdoor-storage" class="task-checkbox">
-                        <label for="outdoor-storage">Organize outdoor storage area <span class="task-tag important">Required</span></label>
-                    </div>
-                </div>
-
-                <div class="task-group">
-                    <div class="task-group-title">Towels & Linen</div>
-                    <div class="task highlight">
-                        <input type="checkbox" id="towels-organize" class="task-checkbox">
-                        <label for="towels-organize">Organize towels back into grey tote and put it back in linen closet (they're on floor in front of washing machine) <span class="task-tag important">Required</span></label>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Section 6: Kitchen Organization -->
-        <section class="section">
-            <div class="section-header">
-                <div class="section-title-group">
-                    <div class="section-icon priority-6">6</div>
-                    <div>
-                        <h2 class="section-title">Kitchen Organization</h2>
-                        <p class="section-subtitle">After appliances are clean</p>
-                    </div>
-                </div>
-                <div class="section-badge time">
-                    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg>
-                    ~30-40 min
-                </div>
-            </div>
-            <div class="section-content">
-                <div class="alert-card warning" style="margin-bottom: 16px; padding: 14px;">
-                    <div class="alert-header" style="margin-bottom: 4px; font-size: 13px;">
-                        <span class="alert-icon">⚠️</span>
-                        Save this section for the very end
-                    </div>
-                    <div class="alert-content" style="font-size: 12px;">
-                        Complete all other cleaning tasks before starting kitchen organization. This ensures deep cleaning is done first.
-                    </div>
-                </div>
-
-                <div class="task-group">
-                    <div class="task-group-title">Counter & Cabinet Organization</div>
-                    <div class="task highlight">
-                        <input type="checkbox" id="k-counter-items" class="task-checkbox">
-                        <label for="k-counter-items">Organize and put away all household items on kitchen counter into correct cabinets and drawers <span class="task-tag important">Required</span></label>
-                    </div>
-                    <div class="task highlight">
-                        <input type="checkbox" id="k-food-cabinet" class="task-checkbox">
-                        <label for="k-food-cabinet">Organize food cabinet - arrange by category, face labels forward <span class="task-tag important">Required</span></label>
-                    </div>
-                    <div class="task highlight">
-                        <input type="checkbox" id="k-expired-food" class="task-checkbox">
-                        <label for="k-expired-food">Check expiration dates throughout kitchen - discard all expired food from cabinets and pantry <span class="task-tag important">Required</span></label>
-                    </div>
-                </div>
-
-                <div class="task-group">
-                    <div class="task-group-title">Refrigerator Organization</div>
-                    <div class="task highlight">
-                        <input type="checkbox" id="k-fridge-expired" class="task-checkbox">
-                        <label for="k-fridge-expired">Remove all expired food from refrigerator <span class="task-tag important">Required</span></label>
-                    </div>
-                    <div class="task">
-                        <input type="checkbox" id="k-fridge-organize" class="task-checkbox">
-                        <label for="k-fridge-organize">Organize refrigerator - group items by category</label>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Section 7: Master Bedroom -->
-        <section class="section">
-            <div class="section-header">
-                <div class="section-title-group">
-                    <div class="section-icon priority-7">7</div>
-                    <div>
-                        <h2 class="section-title">Master Bedroom</h2>
-                        <p class="section-subtitle">Deep clean and carpet cleaning</p>
-                    </div>
-                </div>
-                <div class="section-badge time">
-                    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg>
-                    ~50-60 min
-                </div>
-            </div>
-            <div class="section-content">
-                <div class="task-group">
-                    <div class="task-group-title">High Areas & Dusting</div>
-                    <div class="task">
-                        <input type="checkbox" id="mb-ceiling-fan" class="task-checkbox">
-                        <label for="mb-ceiling-fan">Dust ceiling fan blades and light fixtures</label>
-                    </div>
-                    <div class="task">
-                        <input type="checkbox" id="mb-corners" class="task-checkbox">
-                        <label for="mb-corners">Remove cobwebs from ceiling corners and walls</label>
-                    </div>
-                    <div class="task">
-                        <input type="checkbox" id="mb-vents" class="task-checkbox">
-                        <label for="mb-vents">Clean air vents and return grilles</label>
-                    </div>
-                </div>
-
-                <div class="task-group">
-                    <div class="task-group-title">Windows & Walls</div>
-                    <div class="task">
-                        <input type="checkbox" id="mb-windows" class="task-checkbox">
-                        <label for="mb-windows">Clean windows inside - glass, sills, and frames</label>
-                    </div>
-                    <div class="task">
-                        <input type="checkbox" id="mb-window-tracks" class="task-checkbox">
-                        <label for="mb-window-tracks">Clean window tracks - remove dirt and grime buildup</label>
-                    </div>
-                    <div class="task">
-                        <input type="checkbox" id="mb-blinds" class="task-checkbox">
-                        <label for="mb-blinds">Dust and wipe window blinds</label>
-                    </div>
-                </div>
-
-                <div class="task-group">
-                    <div class="task-group-title">Surfaces & Furniture</div>
-                    <div class="task">
-                        <input type="checkbox" id="mb-furniture" class="task-checkbox">
-                        <label for="mb-furniture">Dust all furniture - dresser, nightstands, shelves</label>
-                    </div>
-                    <div class="task">
-                        <input type="checkbox" id="mb-mirrors" class="task-checkbox">
-                        <label for="mb-mirrors">Clean all mirrors</label>
-                    </div>
-                    <div class="task">
-                        <input type="checkbox" id="mb-switches" class="task-checkbox">
-                        <label for="mb-switches">Disinfect light switches and outlet covers</label>
-                    </div>
-                </div>
-
-                <div class="task-group">
-                    <div class="task-group-title">Floor & Carpet</div>
-                    <div class="task">
-                        <input type="checkbox" id="mb-baseboards" class="task-checkbox">
-                        <label for="mb-baseboards">Scrub and clean all baseboards and molding thoroughly</label>
-                    </div>
-                    <div class="task">
-                        <input type="checkbox" id="mb-vacuum" class="task-checkbox">
-                        <label for="mb-vacuum">Vacuum thoroughly - under bed, in corners, closet floor</label>
-                    </div>
-                    <div class="task highlight">
-                        <input type="checkbox" id="mb-carpet-clean" class="task-checkbox">
-                        <label for="mb-carpet-clean">Carpet cleaning for master bedroom <span class="task-tag important">Required</span></label>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Section 8: Master Bathroom -->
-        <section class="section">
-            <div class="section-header">
-                <div class="section-title-group">
-                    <div class="section-icon priority-8">8</div>
-                    <div>
                         <h2 class="section-title">Master Bathroom</h2>
-                        <p class="section-subtitle">Complete deep clean</p>
+                        <p class="section-subtitle">Start here - highest priority</p>
                     </div>
                 </div>
                 <div class="section-badge time">
@@ -1498,6 +1020,476 @@
             </div>
         </section>
 
+        <!-- Section 2: Master Bedroom -->
+        <section class="section">
+            <div class="section-header">
+                <div class="section-title-group">
+                    <div class="section-icon priority-2">2</div>
+                    <div>
+                        <h2 class="section-title">Master Bedroom</h2>
+                        <p class="section-subtitle">Deep clean and carpet cleaning</p>
+                    </div>
+                </div>
+                <div class="section-badge time">
+                    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg>
+                    ~50-60 min
+                </div>
+            </div>
+            <div class="section-content">
+                <div class="task-group">
+                    <div class="task-group-title">High Areas & Dusting</div>
+                    <div class="task">
+                        <input type="checkbox" id="mb-ceiling-fan" class="task-checkbox">
+                        <label for="mb-ceiling-fan">Dust ceiling fan blades and light fixtures</label>
+                    </div>
+                    <div class="task">
+                        <input type="checkbox" id="mb-corners" class="task-checkbox">
+                        <label for="mb-corners">Remove cobwebs from ceiling corners and walls</label>
+                    </div>
+                    <div class="task">
+                        <input type="checkbox" id="mb-vents" class="task-checkbox">
+                        <label for="mb-vents">Clean air vents and return grilles</label>
+                    </div>
+                </div>
+
+                <div class="task-group">
+                    <div class="task-group-title">Windows & Walls</div>
+                    <div class="task">
+                        <input type="checkbox" id="mb-windows" class="task-checkbox">
+                        <label for="mb-windows">Clean windows inside - glass, sills, and frames</label>
+                    </div>
+                    <div class="task">
+                        <input type="checkbox" id="mb-window-tracks" class="task-checkbox">
+                        <label for="mb-window-tracks">Clean window tracks - remove dirt and grime buildup</label>
+                    </div>
+                    <div class="task">
+                        <input type="checkbox" id="mb-blinds" class="task-checkbox">
+                        <label for="mb-blinds">Dust and wipe window blinds</label>
+                    </div>
+                </div>
+
+                <div class="task-group">
+                    <div class="task-group-title">Surfaces & Furniture</div>
+                    <div class="task">
+                        <input type="checkbox" id="mb-furniture" class="task-checkbox">
+                        <label for="mb-furniture">Dust all furniture - dresser, nightstands, shelves</label>
+                    </div>
+                    <div class="task">
+                        <input type="checkbox" id="mb-mirrors" class="task-checkbox">
+                        <label for="mb-mirrors">Clean all mirrors</label>
+                    </div>
+                    <div class="task">
+                        <input type="checkbox" id="mb-switches" class="task-checkbox">
+                        <label for="mb-switches">Disinfect light switches and outlet covers</label>
+                    </div>
+                </div>
+
+                <div class="task-group">
+                    <div class="task-group-title">Floor & Carpet</div>
+                    <div class="task">
+                        <input type="checkbox" id="mb-baseboards" class="task-checkbox">
+                        <label for="mb-baseboards">Scrub and clean all baseboards and molding thoroughly</label>
+                    </div>
+                    <div class="task">
+                        <input type="checkbox" id="mb-vacuum" class="task-checkbox">
+                        <label for="mb-vacuum">Vacuum thoroughly - under bed, in corners, closet floor</label>
+                    </div>
+                    <div class="task">
+                        <input type="checkbox" id="mb-carpet-clean" class="task-checkbox">
+                        <label for="mb-carpet-clean">Carpet cleaning for master bedroom <span class="task-tag important">Required</span></label>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: Kitchen - Deep Appliance Cleaning -->
+        <section class="section">
+            <div class="section-header">
+                <div class="section-title-group">
+                    <div class="section-icon priority-3">3</div>
+                    <div>
+                        <h2 class="section-title">Kitchen - Deep Appliance Cleaning</h2>
+                        <p class="section-subtitle">Deep clean all appliances</p>
+                    </div>
+                </div>
+                <div class="section-badge time">
+                    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg>
+                    ~60-75 min
+                </div>
+            </div>
+            <div class="section-content">
+                <div class="task-group">
+                    <div class="task-group-title">Priority Appliances</div>
+                    <div class="task">
+                        <input type="checkbox" id="k-brio" class="task-checkbox">
+                        <label for="k-brio">Clean Brio water dispenser exterior - wipe down all outside surfaces <span class="task-tag important">Required</span></label>
+                    </div>
+                    <div class="task">
+                        <input type="checkbox" id="k-microwave-int" class="task-checkbox">
+                        <label for="k-microwave-int">Clean microwave interior <span class="task-tag important">Required</span></label>
+                    </div>
+                    <div class="task">
+                        <input type="checkbox" id="k-microwave-ext" class="task-checkbox">
+                        <label for="k-microwave-ext">Wipe down microwave exterior and handle</label>
+                    </div>
+                    <div class="task">
+                        <input type="checkbox" id="k-dishwasher" class="task-checkbox">
+                        <label for="k-dishwasher">Clean dishwasher interior and exterior - wipe door seals, clean inside; if there's a filter, clean it <span class="task-tag important">Required</span></label>
+                    </div>
+                    <div class="task">
+                        <input type="checkbox" id="k-fridge-int" class="task-checkbox">
+                        <label for="k-fridge-int">Clean refrigerator interior - remove shelves, wash and scrub glass shelves <span class="task-tag important">Required</span></label>
+                    </div>
+                    <div class="task">
+                        <input type="checkbox" id="k-fridge-ext" class="task-checkbox">
+                        <label for="k-fridge-ext">Wipe down refrigerator exterior and handles <span class="task-tag important">Required</span></label>
+                    </div>
+                </div>
+
+                <div class="task-group">
+                    <div class="task-group-title">Oven & Stove</div>
+                    <div class="task">
+                        <input type="checkbox" id="k-oven-int" class="task-checkbox">
+                        <label for="k-oven-int">Clean oven interior - use self-clean cycle or oven cleaner if available <span class="task-tag important">Required</span></label>
+                    </div>
+                    <div class="task">
+                        <input type="checkbox" id="k-oven-ext" class="task-checkbox">
+                        <label for="k-oven-ext">Clean oven exterior - wipe down <span class="task-tag important">Required</span></label>
+                    </div>
+                    <div class="task">
+                        <input type="checkbox" id="k-stovetop" class="task-checkbox">
+                        <label for="k-stovetop">Clean stovetop - remove grates and burners, scrub burners/under grates, wipe down surface <span class="task-tag important">Required</span></label>
+                    </div>
+                </div>
+
+                <div class="task-group">
+                    <div class="task-group-title">Kitchen Surfaces</div>
+                    <div class="task">
+                        <input type="checkbox" id="k-countertops" class="task-checkbox">
+                        <label for="k-countertops">Disinfect all countertops</label>
+                    </div>
+                    <div class="task">
+                        <input type="checkbox" id="k-sink" class="task-checkbox">
+                        <label for="k-sink">Scrub sink - remove stains and buildup</label>
+                    </div>
+                    <div class="task">
+                        <input type="checkbox" id="k-faucet" class="task-checkbox">
+                        <label for="k-faucet">Descale and polish sink faucet</label>
+                    </div>
+                    <div class="task">
+                        <input type="checkbox" id="k-garbage-can" class="task-checkbox">
+                        <label for="k-garbage-can">Clean garbage can - scrub interior and exterior, disinfect <span class="task-tag important">Required</span></label>
+                    </div>
+                </div>
+
+                <div class="task-group">
+                    <div class="task-group-title">Table, Chairs & Floor</div>
+                    <div class="task">
+                        <input type="checkbox" id="k-table" class="task-checkbox">
+                        <label for="k-table">Completely wipe down kitchen table - get it really clean <span class="task-tag important">Required</span></label>
+                    </div>
+                    <div class="task">
+                        <input type="checkbox" id="k-chairs" class="task-checkbox">
+                        <label for="k-chairs">Give all kitchen chairs a good clean - legs, backs, seats, crevices <span class="task-tag important">Required</span></label>
+                    </div>
+                    <div class="task">
+                        <input type="checkbox" id="k-baseboards" class="task-checkbox">
+                        <label for="k-baseboards">Scrub and clean all baseboards</label>
+                    </div>
+                    <div class="task">
+                        <input type="checkbox" id="k-vacuum" class="task-checkbox">
+                        <label for="k-vacuum">Vacuum kitchen floor</label>
+                    </div>
+                    <div class="task">
+                        <input type="checkbox" id="k-floor" class="task-checkbox">
+                        <label for="k-floor">Mop kitchen floor really well - especially under the table, move chairs and get all the buildup <span class="task-tag important">Required</span></label>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 4: Kitchen Organization -->
+        <section class="section">
+            <div class="section-header">
+                <div class="section-title-group">
+                    <div class="section-icon priority-4">4</div>
+                    <div>
+                        <h2 class="section-title">Kitchen Organization</h2>
+                        <p class="section-subtitle">After appliances are clean</p>
+                    </div>
+                </div>
+                <div class="section-badge time">
+                    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg>
+                    ~30-40 min
+                </div>
+            </div>
+            <div class="section-content">
+                <div class="task-group">
+                    <div class="task-group-title">Counter & Cabinet Organization</div>
+                    <div class="task">
+                        <input type="checkbox" id="k-counter-items" class="task-checkbox">
+                        <label for="k-counter-items">Organize and put away all household items on kitchen counter into correct cabinets and drawers <span class="task-tag important">Required</span></label>
+                    </div>
+                    <div class="task">
+                        <input type="checkbox" id="k-food-cabinet" class="task-checkbox">
+                        <label for="k-food-cabinet">Organize food cabinet - arrange by category, face labels forward <span class="task-tag important">Required</span></label>
+                    </div>
+                    <div class="task">
+                        <input type="checkbox" id="k-expired-food" class="task-checkbox">
+                        <label for="k-expired-food">Check expiration dates throughout kitchen - discard all expired food from cabinets and pantry <span class="task-tag important">Required</span></label>
+                    </div>
+                </div>
+
+                <div class="task-group">
+                    <div class="task-group-title">Refrigerator Organization</div>
+                    <div class="task">
+                        <input type="checkbox" id="k-fridge-expired" class="task-checkbox">
+                        <label for="k-fridge-expired">Remove all expired food from refrigerator <span class="task-tag important">Required</span></label>
+                    </div>
+                    <div class="task">
+                        <input type="checkbox" id="k-fridge-organize" class="task-checkbox">
+                        <label for="k-fridge-organize">Organize refrigerator - group items by category</label>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 5: Office / Second Bedroom -->
+        <section class="section">
+            <div class="section-header">
+                <div class="section-title-group">
+                    <div class="section-icon priority-5">5</div>
+                    <div>
+                        <h2 class="section-title">Office / Second Bedroom</h2>
+                        <p class="section-subtitle">Closet organization + carpet cleaning</p>
+                    </div>
+                </div>
+                <div class="section-badge time">
+                    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg>
+                    ~40-50 min
+                </div>
+            </div>
+            <div class="section-content">
+                <div class="task-group">
+                    <div class="task-group-title">Organization Priority</div>
+                    <div class="task">
+                        <input type="checkbox" id="office-closet" class="task-checkbox">
+                        <label for="office-closet">Organize office closet - arrange items by category, remove unnecessary items, neatly stack remaining items <span class="task-tag important">Important</span></label>
+                    </div>
+                    <div class="task">
+                        <input type="checkbox" id="office-storage-cube" class="task-checkbox">
+                        <label for="office-storage-cube">Organize items on 3x3 storage cube - make it look aesthetic and less cluttered</label>
+                    </div>
+                </div>
+
+                <div class="task-group">
+                    <div class="task-group-title">High Areas</div>
+                    <div class="task">
+                        <input type="checkbox" id="office-ceiling-fan" class="task-checkbox">
+                        <label for="office-ceiling-fan">Dust ceiling fan blades and light fixtures</label>
+                    </div>
+                    <div class="task">
+                        <input type="checkbox" id="office-corners" class="task-checkbox">
+                        <label for="office-corners">Remove cobwebs from ceiling corners</label>
+                    </div>
+                    <div class="task">
+                        <input type="checkbox" id="office-vents" class="task-checkbox">
+                        <label for="office-vents">Clean air vents</label>
+                    </div>
+                </div>
+
+                <div class="task-group">
+                    <div class="task-group-title">Desk & Computer Area</div>
+                    <div class="task">
+                        <input type="checkbox" id="office-desk" class="task-checkbox">
+                        <label for="office-desk">Clean tempered glass desk surface</label>
+                    </div>
+                    <div class="task">
+                        <input type="checkbox" id="office-keyboard" class="task-checkbox">
+                        <label for="office-keyboard">Clean keyboard - dust and remove grease buildup</label>
+                    </div>
+                    <div class="task">
+                        <input type="checkbox" id="office-mouse" class="task-checkbox">
+                        <label for="office-mouse">Clean mouse</label>
+                    </div>
+                    <div class="task">
+                        <input type="checkbox" id="office-tower" class="task-checkbox">
+                        <label for="office-tower">Dust computer tower (dry cloth only, no chemicals)</label>
+                    </div>
+                    <div class="task">
+                        <input type="checkbox" id="office-chair" class="task-checkbox">
+                        <label for="office-chair">Clean office chair - dust and clean all crevices and seams</label>
+                    </div>
+                    <div class="task">
+                        <input type="checkbox" id="office-glass-mat" class="task-checkbox">
+                        <label for="office-glass-mat">Clean tempered glass chair mat (both sides)</label>
+                    </div>
+                </div>
+
+                <div class="task-group">
+                    <div class="task-group-title">Floor & Carpet</div>
+                    <div class="task">
+                        <input type="checkbox" id="office-baseboards" class="task-checkbox">
+                        <label for="office-baseboards">Wipe baseboards</label>
+                    </div>
+                    <div class="task">
+                        <input type="checkbox" id="office-vacuum" class="task-checkbox">
+                        <label for="office-vacuum">Vacuum floor, especially under computer desk</label>
+                    </div>
+                    <div class="task">
+                        <input type="checkbox" id="office-carpet" class="task-checkbox">
+                        <label for="office-carpet">Carpet cleaning for office/second bedroom <span class="task-tag important">Required</span></label>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 6: Living Room -->
+        <section class="section">
+            <div class="section-header">
+                <div class="section-title-group">
+                    <div class="section-icon priority-6">6</div>
+                    <div>
+                        <h2 class="section-title">Living Room</h2>
+                        <p class="section-subtitle">Entertainment center priority</p>
+                    </div>
+                </div>
+                <div class="section-badge time">
+                    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg>
+                    ~30-35 min
+                </div>
+            </div>
+            <div class="section-content">
+                <div class="task-group">
+                    <div class="task-group-title">High Areas</div>
+                    <div class="task">
+                        <input type="checkbox" id="lr-ceiling-fan" class="task-checkbox">
+                        <label for="lr-ceiling-fan">Dust ceiling fan blades and light fixtures</label>
+                    </div>
+                    <div class="task">
+                        <input type="checkbox" id="lr-corners" class="task-checkbox">
+                        <label for="lr-corners">Remove cobwebs from corners</label>
+                    </div>
+                </div>
+
+                <div class="task-group">
+                    <div class="task-group-title">Entertainment Area</div>
+                    <div class="task">
+                        <input type="checkbox" id="lr-tv" class="task-checkbox">
+                        <label for="lr-tv">Clean TV screen and entertainment center surfaces</label>
+                    </div>
+                    <div class="task">
+                        <input type="checkbox" id="lr-behind-tv" class="task-checkbox">
+                        <label for="lr-behind-tv">Vacuum up all the dust from behind the living room entertainment center - it's been building up <span class="task-tag important">Required</span></label>
+                    </div>
+                    <div class="task">
+                        <input type="checkbox" id="lr-lamps" class="task-checkbox">
+                        <label for="lr-lamps">Dust the two tall white lamps next to TV</label>
+                    </div>
+                    <div class="task">
+                        <input type="checkbox" id="lr-speakers" class="task-checkbox">
+                        <label for="lr-speakers">Dust the two tall speakers next to lamps</label>
+                    </div>
+                </div>
+
+                <div class="task-group">
+                    <div class="task-group-title">Furniture & Floor</div>
+                    <div class="task">
+                        <input type="checkbox" id="lr-furniture" class="task-checkbox">
+                        <label for="lr-furniture">Dust all other furniture and shelves</label>
+                    </div>
+                    <div class="task">
+                        <input type="checkbox" id="lr-couch" class="task-checkbox">
+                        <label for="lr-couch">Wipe down leather couch</label>
+                    </div>
+                    <div class="task">
+                        <input type="checkbox" id="lr-pet-area" class="task-checkbox">
+                        <label for="lr-pet-area">Clean area under Ollie's bowls placemat and toy basket</label>
+                    </div>
+                    <div class="task">
+                        <input type="checkbox" id="lr-baseboards" class="task-checkbox">
+                        <label for="lr-baseboards">Wipe baseboards</label>
+                    </div>
+                    <div class="task">
+                        <input type="checkbox" id="lr-vacuum" class="task-checkbox">
+                        <label for="lr-vacuum">Vacuum floor - under furniture, corners</label>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 7: Whole House Tasks -->
+        <section class="section">
+            <div class="section-header">
+                <div class="section-title-group">
+                    <div class="section-icon priority-7">7</div>
+                    <div>
+                        <h2 class="section-title">Whole House Required Tasks</h2>
+                        <p class="section-subtitle">All rooms throughout house</p>
+                    </div>
+                </div>
+                <div class="section-badge time">
+                    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg>
+                    ~30-40 min
+                </div>
+            </div>
+            <div class="section-content">
+                <div class="task-group">
+                    <div class="task-group-title">Throughout Entire House</div>
+                    <div class="task">
+                        <input type="checkbox" id="whole-switches" class="task-checkbox">
+                        <label for="whole-switches">Clean and disinfect all light switches throughout entire house - remove fingerprints and oils <span class="task-tag important">Required</span></label>
+                    </div>
+                    <div class="task">
+                        <input type="checkbox" id="whole-handles" class="task-checkbox">
+                        <label for="whole-handles">Clean and disinfect all door handles throughout entire house - remove fingerprints and oils <span class="task-tag important">Required</span></label>
+                    </div>
+                    <div class="task">
+                        <input type="checkbox" id="whole-baseboards" class="task-checkbox">
+                        <label for="whole-baseboards">Scrub and clean baseboards throughout house - they're getting dusty and need thorough cleaning <span class="task-tag important">Required</span></label>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 8: Outdoor & Storage -->
+        <section class="section">
+            <div class="section-header">
+                <div class="section-title-group">
+                    <div class="section-icon priority-8">8</div>
+                    <div>
+                        <h2 class="section-title">Outdoor & Storage Tasks</h2>
+                        <p class="section-subtitle">Garage return + organization</p>
+                    </div>
+                </div>
+                <div class="section-badge time">
+                    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg>
+                    ~20-25 min
+                </div>
+            </div>
+            <div class="section-content">
+                <div class="task-group">
+                    <div class="task-group-title">Outdoor Tasks</div>
+                    <div class="task">
+                        <input type="checkbox" id="garage-return" class="task-checkbox">
+                        <label for="garage-return">Take Christmas tree box and holiday grey bin to garage - walk straight past pool, follow sidewalk to Garage #3, place on right side <span class="task-tag important">Required</span></label>
+                    </div>
+                    <div class="task">
+                        <input type="checkbox" id="outdoor-storage" class="task-checkbox">
+                        <label for="outdoor-storage">Organize outdoor storage area <span class="task-tag important">Required</span></label>
+                    </div>
+                </div>
+
+                <div class="task-group">
+                    <div class="task-group-title">Towels & Linen</div>
+                    <div class="task">
+                        <input type="checkbox" id="towels-organize" class="task-checkbox">
+                        <label for="towels-organize">Organize towels back into grey tote and put it back in linen closet (they're on floor in front of washing machine) <span class="task-tag important">Required</span></label>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <!-- Time-Saver Tips -->
         <div class="alert-card info">
             <div class="alert-header">
@@ -1506,7 +1498,7 @@
             </div>
             <div class="alert-content">
                 <ul>
-                    <li><strong>Work order:</strong> Kitchen appliances → Office → Living Room → Whole House tasks → Outdoor → Kitchen organization → Master Bedroom → Master Bathroom</li>
+                    <li><strong>Work order:</strong> Master Bathroom → Master Bedroom → Kitchen Appliances → Kitchen Organization → Office → Living Room → Whole House → Outdoor</li>
                     <li><strong>Dusting order:</strong> Always top-to-bottom so dust falls down, then vacuum last</li>
                     <li><strong>Carpet cleaning:</strong> Complete for master bedroom and office/second bedroom</li>
                     <li><strong>Whole house:</strong> All light switches, door handles, and baseboards throughout house</li>
