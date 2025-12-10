@@ -25,7 +25,8 @@
       "Bash(npm install:*)",
       "Bash(firebase login:*)",
       "Bash(node:*)",
-      "Bash(start Deep_Clean_2025-11-26_Full_House_Single_Cleaner_Prioritized_DEV.html)"
+      "Bash(start Deep_Clean_2025-11-26_Full_House_Single_Cleaner_Prioritized_DEV.html)",
+      "Bash(open:*)"
     ],
     "deny": [],
     "ask": []

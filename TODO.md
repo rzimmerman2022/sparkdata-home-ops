@@ -41,6 +41,12 @@
 | Fix alert icon display (replace text "i" with SVG icons) | Claude Sonnet 4.5 | 2025-12-09 | ~20:00 EST |
 | Add STOP SESSION button for clock-out tracking and duration calculation | Claude Sonnet 4.5 | 2025-12-09 | ~20:30 EST |
 | Merge Firebase feature branch to main and push to GitHub | Claude Sonnet 4.5 | 2025-12-09 | ~21:00 EST |
+| Create dashboard.html with real-time Firebase onSnapshot listener | Claude Sonnet 4.5 | 2025-12-09 | ~21:30 EST |
+| Add Share Dashboard button to checklist (later removed for better UX) | Claude Sonnet 4.5 | 2025-12-09 | ~21:45 EST |
+| Fix session reset issues (completed sessions blocking new ones) | Claude Sonnet 4.5 | 2025-12-09 | ~22:00 EST |
+| Implement auto-find dashboard (query Firestore for most recent active session) | Claude Sonnet 4.5 | 2025-12-09 | ~22:15 EST |
+| Create Firestore composite index (status + startTime descending) | Claude Sonnet 4.5 | 2025-12-09 | ~22:30 EST |
+| Test auto-find dashboard with live session data (28% progress, 21 tasks) | Claude Sonnet 4.5 | 2025-12-09 | ~22:45 EST |
 
 ### Completed Task Details
 
@@ -82,13 +88,46 @@
 - Session flow: START → auto-sync → STOP → SUBMIT (to Google Sheets with duration)
 - Modified submitSession() to include session duration in Google Sheets submission
 
+**Real-Time Dashboard & UX Improvements (dashboard-001)**
+
+- Created `dashboard.html` with Firebase onSnapshot listener for live updates
+- Beautiful UI matching checklist design system (Inter font, blue accent, cards)
+- Dashboard features:
+  - Live progress bar (0-100%) updates within 1-2 seconds
+  - Session status indicator (Active/Completed with animated pulse)
+  - Section-by-section breakdown (Master Bathroom 0/8, etc.)
+  - Cleaner notes display in real-time
+  - Elapsed time counter
+  - Last updated timestamp
+  - Mobile-responsive design
+- Fixed session reset issues:
+  - Completed sessions now properly clear on page reload
+  - resetSessionUI() function allows starting new sessions
+  - UI properly hides after SUBMIT
+- Tested Share Dashboard button (file:// URL issue identified)
+- **Decision:** Implementing smart auto-find dashboard instead
+  - Homeowner bookmarks dashboard.html once
+  - Dashboard automatically queries for most recent active session
+  - No manual sharing needed - better UX for single-homeowner use case
+- **Implemented Auto-Find Dashboard:**
+  - Query: `.where('status', '==', 'active').orderBy('startTime', 'desc').limit(1)`
+  - Created Firestore composite index: status (Ascending) + startTime (Descending)
+  - Index status: Enabled and working
+  - **Tested successfully:** Dashboard auto-found session_1765335068674_b8n07oy4e (28% progress, 21/74 tasks)
+  - **UX Flow:** Homeowner opens dashboard.html → Automatically shows current cleaning session
+- **Future B2B consideration:** Architecture supports multi-tenant expansion
+  - Authentication (Firebase Auth)
+  - Multi-client support
+  - SMS notifications (Twilio)
+  - Billing integration (Stripe)
+
 ---
 
 ## In-Progress Tasks
 
 | Task | Status | Progress |
 |------|--------|----------|
-| *None currently* | — | — |
+| *No tasks currently in progress* | - | - |
 
 ---
 
@@ -98,17 +137,17 @@
 
 | Task | Notes |
 |------|-------|
-| Debug Firebase Console data visibility | Session data not appearing in Firestore Console (likely browser extension errors) |
-| Test START/STOP button Firebase workflow | Verify session creation, auto-sync, and completion in Firestore |
-| Create dashboard.html with live progress viewer | Real-time onSnapshot listener for homeowner to watch cleaning progress |
+| Test real-time updates on dashboard | Check boxes in checklist, verify dashboard updates within 1-2 seconds |
+| Deploy to GitHub Pages for production testing | Push all changes to main branch for web hosting |
+| Copy Firebase changes from DEV to production file | After all testing is complete |
 
 ### Medium Priority
 
 | Task | Notes |
 |------|-------|
-| Copy Firebase changes from DEV to production file | After Firebase testing is complete |
-| Test complete workflow end-to-end | START → sync → STOP → SUBMIT → verify Google Sheets + Firebase |
-| Add column headers to Google Sheet | Timestamp, Progress, Completed, Incomplete, Notes, Duration (NEW) |
+| Test complete workflow end-to-end | START → sync → STOP → SUBMIT → verify Google Sheets + Firebase + Dashboard |
+| Add column headers to Google Sheet | Timestamp, Progress, Completed, Incomplete, Notes, Duration, Session ID |
+| Add analytics tracking | Track session metrics, completion rates, time per section |
 | Update naming convention guide to reflect new date placement | Date now follows Cleaning_Type instead of being at end |
 | Create additional checklists (Weekly, Monthly) | Referenced in naming guide but not yet created |
 | Consider adding date picker for scheduling future cleaning sessions | Enhancement request |
@@ -180,26 +219,28 @@
 
 ## Session Sign-Off
 
-**Session:** firebase-001
+**Session:** dashboard-002 (Auto-Find Implementation)
 **Date:** 2025-12-09
 **Model:** Claude Sonnet 4.5
 **Work Completed:**
-- ✅ Added Firebase SDK (Firestore compat v10.7.1)
-- ✅ Implemented START SESSION button (clock-in time tracking)
-- ✅ Implemented STOP SESSION button (clock-out time + duration calculation)
-- ✅ Auto-sync to Firestore every 45 seconds
-- ✅ Offline persistence with IndexedDB
-- ✅ Fixed 3 alert icon displays (text → SVG)
-- ✅ Created 4 comprehensive Firebase documentation files (1,688 lines total)
-- ✅ Merged feature branch to main and pushed to GitHub
+- ✅ Implemented auto-find dashboard (query Firestore for most recent active session)
+- ✅ Removed Share Dashboard button from checklist (not needed)
+- ✅ Created Firestore composite index (status + startTime)
+- ✅ Verified index created successfully and enabled
+- ✅ Tested auto-find functionality with live session (session_1765335068674_b8n07oy4e)
+- ✅ Confirmed dashboard shows 28% progress, 21/74 tasks correctly
+- ✅ Verified all task states syncing properly (mb-shower, k-counters, etc. showing checked:true)
+- ✅ Updated TODO.md with completed work
 
 **Next Steps:**
-- Debug Firebase Console data visibility (check Network tab for API calls)
-- Create dashboard.html with real-time onSnapshot listener
-- Test complete workflow: START → STOP → SUBMIT
-- Copy Firebase changes from DEV to production file
+- Test real-time updates (check more boxes, watch dashboard update)
+- Deploy to GitHub Pages for production web hosting
+- End-to-end workflow testing (START → check → STOP → SUBMIT)
+- Copy DEV changes to production file
 
-**Status:** Ready for testing and dashboard development
+**Status:** Auto-find dashboard working perfectly! Ready for real-time update testing and deployment.
+
+**Key Achievement:** Homeowner can now bookmark dashboard.html once and automatically see every cleaning session - no URL sharing needed!
 
 ---
 

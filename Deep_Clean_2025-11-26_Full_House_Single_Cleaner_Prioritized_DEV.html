@@ -1731,16 +1731,26 @@
             });
             updateProgress();
 
-            // Restore existing session
+            // Restore existing session (only if active, not completed)
             const savedSessionId = localStorage.getItem('currentSessionId');
             const savedStartTime = localStorage.getItem('sessionStartTime');
             const savedEndTime = localStorage.getItem('sessionEndTime');
 
-            if (savedSessionId && savedStartTime) {
+            // If session is completed, clear it and don't restore
+            if (savedSessionId && savedStartTime && savedEndTime) {
+                console.log('Found completed session - clearing for new session');
+                localStorage.removeItem('currentSessionId');
+                localStorage.removeItem('sessionStartTime');
+                localStorage.removeItem('sessionEndTime');
+                return; // Don't restore completed sessions
+            }
+
+            // Only restore active sessions (no end time)
+            if (savedSessionId && savedStartTime && !savedEndTime) {
                 currentSessionId = savedSessionId;
                 sessionStartTime = new Date(savedStartTime);
 
-                // Restore UI
+                // Restore UI for active session
                 document.getElementById('startBtn').disabled = true;
                 document.getElementById('startBtn').textContent = 'Session Started';
                 document.getElementById('sessionInfo').style.display = 'flex';
@@ -1748,36 +1758,13 @@
                     hour: '2-digit', minute: '2-digit'
                 });
 
-                // Check if session was already stopped
-                if (savedEndTime) {
-                    const sessionEndTime = new Date(savedEndTime);
-                    const durationMs = sessionEndTime - sessionStartTime;
-                    const hours = Math.floor(durationMs / 3600000);
-                    const minutes = Math.floor((durationMs % 3600000) / 60000);
-                    const durationText = hours > 0
-                        ? `${hours} hour${hours > 1 ? 's' : ''} ${minutes} min${minutes !== 1 ? 's' : ''}`
-                        : `${minutes} minute${minutes !== 1 ? 's' : ''}`;
+                // Show active state with Stop button
+                document.getElementById('stopBtn').style.display = 'inline-flex';
 
-                    // Show completed state
-                    document.getElementById('stopBtn').style.display = 'inline-flex';
-                    document.getElementById('stopBtn').disabled = true;
-                    document.getElementById('stopBtn').textContent = 'Session Stopped';
-                    document.getElementById('statusIndicator').classList.remove('active');
-                    document.getElementById('sessionStatusText').innerHTML = '<span class="session-completed">✓ Session Completed</span>';
-                    document.getElementById('syncStatus').style.display = 'none';
-                    document.getElementById('sessionDuration').style.display = 'block';
-                    document.getElementById('sessionDuration').textContent = `Duration: ${durationText}`;
+                // Resume auto-sync
+                startAutoSync();
 
-                    console.log('Session restored (completed):', currentSessionId);
-                } else {
-                    // Show active state with Stop button
-                    document.getElementById('stopBtn').style.display = 'inline-flex';
-
-                    // Resume auto-sync
-                    startAutoSync();
-
-                    console.log('Session restored (active):', currentSessionId);
-                }
+                console.log('Session restored (active):', currentSessionId);
             }
         }
 
@@ -1988,6 +1975,25 @@
 
             document.getElementById('summaryText').textContent = summary;
             document.getElementById('summaryModal').classList.add('active');
+
+            // Reset UI for new session
+            resetSessionUI();
+        }
+
+        // Reset session UI to allow starting a new session
+        function resetSessionUI() {
+            // Clear session variables
+            currentSessionId = null;
+            sessionStartTime = null;
+
+            // Reset START button
+            document.getElementById('startBtn').disabled = false;
+            document.getElementById('startBtn').textContent = 'Start Session';
+
+            // Hide session info
+            document.getElementById('sessionInfo').style.display = 'none';
+
+            console.log('UI reset - ready for new session');
         }
 
         // Copy summary to clipboard

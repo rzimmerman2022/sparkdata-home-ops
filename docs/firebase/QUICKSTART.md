@@ -174,12 +174,14 @@ console.log('Last sync:', new Date(lastSyncTime).toLocaleTimeString());
 2. **Test** Firebase connection (open DEV file, click START)
 3. **View** data in Firestore Console
 4. **Read** `docs/firebase/ARCHITECTURE.md` for full understanding
-5. **Build** dashboard (next task on roadmap)
+5. **Use** dashboard at `dashboard.html` (no session ID needed - auto-finds latest!)
 
-**If building dashboard:**
-- See: `docs/firebase/API_REFERENCE.md` → "Dashboard Real-time Listener" section
-- Use: `onSnapshot()` for real-time updates
-- URL format: `dashboard.html?session=SESSION_ID`
+**Dashboard Usage:**
+- **URL:** Just `dashboard.html` - automatically shows most recent active session
+- **Homeowner Experience:** Bookmark once, opens every cleaning session
+- **No sharing needed** - perfect for single-homeowner use case
+- **Real-time updates** via `onSnapshot()` listener
+- See: `docs/firebase/API_REFERENCE.md` for implementation details
 
 **If debugging:**
 - Check: Browser console for error messages
