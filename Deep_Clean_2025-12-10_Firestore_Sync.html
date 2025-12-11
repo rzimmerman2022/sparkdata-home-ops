@@ -1754,6 +1754,22 @@
             }
         });
 
+        // Listen for storage changes from other tabs
+        window.addEventListener('storage', (e) => {
+            // Only respond to changes in session-related keys
+            if (e.key === 'firestore-session-id') {
+                if (e.newValue === null && currentSessionId) {
+                    // Session was ended in another tab
+                    console.log('Session ended in another tab, cleaning up...');
+                    handleSessionEndedInOtherTab();
+                } else if (e.newValue && !currentSessionId) {
+                    // Session was started in another tab
+                    console.log('Session started in another tab, resuming...');
+                    checkForExistingSession();
+                }
+            }
+        });
+
         async function checkForExistingSession() {
             // Check if there's an existing session in localStorage
             const savedSessionId = localStorage.getItem('firestore-session-id');
@@ -1767,6 +1783,7 @@
 
                     if (sessionDoc.exists && sessionDoc.data().status === 'active') {
                         // Resume existing session
+                        console.log('✅ Resuming existing session:', savedSessionId);
                         currentSessionId = savedSessionId;
                         currentCleanerName = savedCleanerName;
                         sessionStartTime = new Date(savedStartTime);
@@ -1774,6 +1791,18 @@
                         document.getElementById('sessionModal').classList.add('hidden');
                         initializeSession();
                         return;
+                    } else if (sessionDoc.exists && sessionDoc.data().status === 'completed') {
+                        // Session was completed - clear localStorage
+                        console.log('⚠️ Previous session was completed, starting fresh');
+                        localStorage.removeItem('firestore-session-id');
+                        localStorage.removeItem('firestore-cleaner-name');
+                        localStorage.removeItem('firestore-start-time');
+                    } else {
+                        // Session doesn't exist in Firestore - clear stale data
+                        console.log('⚠️ Session not found in Firestore, clearing stale data');
+                        localStorage.removeItem('firestore-session-id');
+                        localStorage.removeItem('firestore-cleaner-name');
+                        localStorage.removeItem('firestore-start-time');
                     }
                 } catch (error) {
                     console.error('Error checking existing session:', error);
@@ -2171,6 +2200,27 @@
                 console.error('Error ending session:', error);
                 alert('Failed to end session. Please try again.');
             }
+        }
+
+        function handleSessionEndedInOtherTab() {
+            // Session was ended in another tab - clean up this tab's state
+            // Don't show alerts or update Firestore (already done in the other tab)
+
+            // Clean up listeners
+            if (progressListener) progressListener();
+            if (cleanersListener) cleanersListener();
+
+            // Reset UI
+            currentSessionId = null;
+            currentCleanerName = null;
+            sessionStartTime = null;
+
+            document.getElementById('sessionInfoBar').style.display = 'none';
+            document.getElementById('sessionModal').classList.remove('hidden');
+            document.getElementById('cleanerNameInput').value = '';
+
+            // Optionally show a notification
+            console.log('Session ended in another tab - this tab has been reset');
         }
 
         async function submitSession() {
